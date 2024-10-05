@@ -1,8 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 
 export default function MainPage() {
   const [username, setUsername] = useState("");
@@ -23,13 +23,10 @@ export default function MainPage() {
 
     if (response.ok) {
       console.log('Success:', data);
-      if (!isSignUp) {
-        localStorage.setItem('token', data.token);
-      }
-      router.push('/landing');
+      router.push('/landing'); // Redirect to landing page
     } else {
       console.error('Error:', data.error);
-      // Handle error (e.g., show an error message to the user)
+      // Handle error
     }
   };
 
@@ -79,6 +76,15 @@ export default function MainPage() {
           {isSignUp ? "Already have an account? Log In" : "Need an account? Sign Up"}
         </button>
       </main>
+      <footer className="mt-8 text-center text-sm text-gray-600 dark:text-gray-400">
+        <p>
+          Need help? Visit our{" "}
+          <a href="/support" className="text-[#6b8e23] hover:underline">
+            support page
+          </a>
+          .
+        </p>
+      </footer>
     </div>
   );
 }
