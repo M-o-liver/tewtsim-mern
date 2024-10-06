@@ -22,6 +22,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(user);
   } catch (error) {
+    console.error('Error verifying token:', error);
     return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
   }
 }
