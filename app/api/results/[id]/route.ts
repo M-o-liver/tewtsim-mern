@@ -11,12 +11,12 @@ export async function GET(request: Request, { params }: { params: { id: string }
   return NextResponse.json(result)
 }
 
-export async function POST(request: Request, { params }: { params: { id: string } }) {
-  const { story, finalSummary } = await request.json()
+export async function POST(request: Request, { params }: { params: { id: string }}) {
+  const { fragO, story, analysis } = await request.json()
   await dbConnect()
   const result = await Result.findOneAndUpdate(
     { missionId: params.id },
-    { story, finalSummary },
+    { fragO, story, analysis },
     { new: true, upsert: true }
   )
   return NextResponse.json(result)

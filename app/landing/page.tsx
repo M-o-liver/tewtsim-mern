@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
 import MissionCard from '@/components/MissionCard'
 
 interface Mission {
@@ -14,7 +13,6 @@ interface Mission {
 
 export default function LandingPage() {
   const [missions, setMissions] = useState<Mission[]>([])
-  const router = useRouter()
 
   useEffect(() => {
     const fetchMissions = async () => {
