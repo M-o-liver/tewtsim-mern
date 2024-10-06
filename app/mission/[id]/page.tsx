@@ -72,7 +72,7 @@ export default function MissionPage({ params }: { params: { id: string } }) {
         <div className="space-y-6">
           <section className="bg-gray-800 p-6 rounded-lg">
             <h2 className="text-xl font-semibold mb-4">Map</h2>
-            <Image src={mission.map} alt="Mission Map" width={400} height={300} layout="responsive" />
+            <Image src={`/maps/${mission.map}`} alt="Mission Map" width={400} height={300} layout="responsive" />
           </section>
         </div>
       </div>
