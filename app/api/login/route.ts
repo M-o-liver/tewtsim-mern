@@ -15,7 +15,8 @@ export async function POST(req: NextRequest) {
 
     const { username, password } = await req.json();
     console.log('Searching for user');
-    const user = await User.findOne({ username }).maxTimeMS(5000); // Add timeout for database query
+    
+    const user = await User.findOne({ username }).select('+password');
 
     if (!user) {
       console.log('User not found');
