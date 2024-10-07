@@ -35,12 +35,19 @@ Feel free to create your own account!
 ### 📋 Mission Brief
 
 - Comprehensive mission briefing
-- Interactive tools for note-taking and combat estimate preparation
+- Interactive tools for note-taking and combat estimate preparation (in development)
 
-### ❓ Tactical Decision Point
+### ❓ Tactical Orders
 
-- Time-constrained situational questions integrated into the mission page
 - FRAG-O creation exercise
+
+### Story
+
+- Read a story about your mission.
+
+### ❗︎❗ Tactical Decision Point❗❗︎
+
+- The AI will generate a story, it will lead to a snap decision point. You will answer within 10 seconds. (In development)
 
 ### 🏆 Mission Debrief
 
@@ -53,7 +60,6 @@ Feel free to create your own account!
 - **Frontend:** React.js for dynamic and responsive user interfaces
 - **Backend:** Node.js with Express.js for robust API development
 - **Database:** MongoDB for flexible and scalable data storage
-- **State Management:** Redux for efficient application state management
 - **API Integration:** RESTful APIs for seamless client-server communication
 - **Authentication:** JSON Web Tokens (JWT) for secure user authentication
 
@@ -74,55 +80,6 @@ TEWTSIM aims to enhance:
 3. Strategic approach exploration
 4. Preparation for field exercises
 5. Tactical textual scenario data collection for organizational analysis and future development
-
-## Installation Guide (Local Development Environment)
-
-1. Clone the TEWTSIM repository
-   `git clone https://github.com/M-o-liver/tewtsim-mern`
-   `cd tewtsim-mern`
-
-2. Install dependencies
-   `npm install
-   cd client
-   npm install
-   cd ..`
-
-3. Set up environment variables
-   - Create a .env file in the root directory
-   - Add necessary environment variables (e.g., MONGODB_URI, JWT_SECRET)
-
-4. Start the development server
-   npm run dev
-
-5. Access the application
-   - Open a web browser and navigate to `http://localhost:3000`
-
-Note: Ensure you have Node.js, npm, and MongoDB installed on your system before proceeding with the installation.
-
-## Scenario Management
-
-TEWTSIM scenarios are now managed through MongoDB. To add a new scenario:
-
-1. Develop the Tactical Decision Game (TDG) content as before
-
-2. Use the provided API endpoints to create new missions
-
-   - POST /api/missions to create a new mission
-   - Include all necessary mission data in the request body
-
-3. Test the new scenario
-
-   - Access the new scenario through the frontend interface
-   - Verify all content displays correctly
-   - Ensure the mission flow functions as intended
-
-Best Practices:
-
-- Maintain consistency in data structure across scenarios
-- Regularly backup the database
-- Consider version control for scenario content to track changes over time
-
-For assistance with scenario development or technical implementation, please consult me at `oliver.cross@forces.gc.ca`
 
 ## Contribution Guidelines
 
