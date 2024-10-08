@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useState, useEffect, Suspense } from 'react'
+import { useRouter } from 'next/navigation'
 import ResultsCard from '@/components/ResultsCard'
 import { useAuth } from '@/hooks/useAuth'
 import ReactMarkdown from 'react-markdown'
@@ -18,13 +18,13 @@ interface Result {
   } | null;
 }
 
-export default function ResultsPage() {
+function ResultsContent() {
   const [results, setResults] = useState<Result[]>([])
   const [selectedResult, setSelectedResult] = useState<Result | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
   const { username, isLoading: authLoading } = useAuth()
-  const searchParams = useSearchParams()
+  const searchParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '')
   const selectedId = searchParams.get('id')
 
   useEffect(() => {
@@ -122,5 +122,15 @@ export default function ResultsPage() {
         Back to Mission Select
       </button>
     </div>
+  )
+}
+
+export default function ResultsPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gray-900 text-green-500 flex items-center justify-center">
+      <p className="text-2xl">Loading results...</p>
+    </div>}>
+      <ResultsContent />
+    </Suspense>
   )
 }
