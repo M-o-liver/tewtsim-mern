@@ -38,26 +38,140 @@ const Answer = mongoose.model('Answer', AnswerSchema);
 
 const missions = [
   {
-    title: "Operation Eastern Shield",
-    description: "CAF Platoon defense against Russian advance in Eastern Europe",
+    title: "Platoon Attack in Jalalabad",
+    description: "Your flank comes under attack from a well-entrenched enemy position. You must decide how to respond.",
     type: "Combat",
-    level: "Advanced",
-    situation: "As a platoon commander in the Canadian Armed Forces, you are deployed to Eastern Europe as part of NATO's enhanced Forward Presence. Intelligence reports indicate that Russian forces are massing near the border and an incursion is imminent. Your platoon has been tasked with defending a strategic crossroads that is vital for the movement of NATO reinforcements.",
-    mission: "Your mission is to establish a defensive position at Grid 123456 to deny enemy forces access to the crossroads and maintain it for 48 hours until reinforcements arrive.",
-    details: "You have a full infantry platoon with 3 sections, each equipped with C7 rifles, C9 LMGs, and Carl Gustav recoilless rifles. You also have a weapons detachment with a C6 GPMG and 60mm mortar. Attached to your platoon is an ATGM team with Javelin missiles. The terrain is mostly wooded with some open fields. The crossroads is on a small hill that provides good observation of the surrounding area. You have a limited amount of time to prepare your defenses before the expected Russian attack.",
-    map: "eastern-europe-crossroads.jpg",
-    answerKey: "An ideal Frag-O for this situation would include:\n\n1. Intent: Hold the crossroads for 48 hours, denying enemy access while preserving combat power.\n\n2. Concept of Operations:\n   a. Establish a 360-degree defense on the hill overlooking the crossroads.\n   b. Position two sections forward to cover likely enemy approaches, with the third in reserve.\n   c. Place the weapons detachment to provide overlapping fields of fire.\n   d. Use the ATGM team to cover the most likely avenue for armored approach.\n   e. Establish observation posts forward of the main defensive position.\n   f. Prepare alternate and supplementary positions.\n   g. Create obstacles and minefields to channel enemy movement.\n\n3. Tasks:\n   1 Section: Defend the northern approach, establish OP1.\n   2 Section: Defend the eastern approach, establish OP2.\n   3 Section: Act as reserve, prepare counterattack plans.\n   Weapons Det: Support forward sections, be prepared to reinforce as needed.\n   ATGM Team: Orient to the east, engage any armored threats.\n\n4. Coordinating Instructions:\n   - Priorities of work: fighting positions, fields of fire, camouflage, obstacles.\n   - Rehearse withdrawal to alternate positions.\n   - Establish comms check every 30 minutes.\n   - Report all enemy sightings immediately.\n\n5. Service Support:\n   - Resupply of ammunition and water at last light.\n   - Casualty collection point established behind the hill.\n\n6. Command and Signals:\n   - Platoon HQ co-located with 3 Section.\n   - Platoon commander to rotate between positions.\n   - Use company net for reports, platoon net for internal comms.\n   - Pyrotechnics: Green flare for withdrawal, Red for enemy sighting."
+    level: "Platoon",
+    situation: `
+    You are the 2d Platoon Commander, Company F, BLT 2/1, 11th MEU. Your company has recently taken over the area of responsibility (AOR) of Jalalabad, Afghanistan. After initial operations, organized resistance has ceased. However, insurgent and tribal fighters remain as active combatants.
+
+    Your AOR is in an urban environment characterized by densely but haphazardly arranged mud brick houses of one and two stories with flat roofs, with the occasional taller building—usually a mosque or other religiously associated structure.
+
+    The enemy you face wears no standardized military uniform and often appears in civilian dress, uses Soviet-era infantry weapons (AK–47s, light machine guns, and rocket propelled grenades), and has the occasional command of 82mm mortars and 12.7mm machine guns. Their main tactic is the ambush, initiated by RPG attack or improvised explosive device.
+
+    The BLT has been relatively successful in matters of civil affairs and civil-military relations, initiating a "weapons buy back program." Of the seven major clans in the AO, the BLT has secured the support of one smaller clan but still faces resistance from several of the larger clans in the city and surrounding area.
+  `,
+    mission: `
+    Your platoon is on its second patrol. After crossing the Rt 6 bridge, you enter the area controlled by the smaller clan that supports coalition forces. You are moving from south to north, 1st squad on the left flank, you are with 2d Squad in the center, and 3d Squad is on the right.
+
+    Approximately 20 minutes after crossing the bridge, you hear and see an explosion where you expect 1st Squad to be, followed by automatic weapons fire and semi-automatic weapons fire. 2nd Squad leader executes halt in place and 360 security. Firing continues for 30 seconds before you receive 1st Squad report:
+
+    "Enemy squad with AKs, RPG, mortar IED. Watson and Perez are down. Need CASEVAC. Break. Recommend 2nd Squad move north of my position and cut off retreating enemy elements. Over."
+
+    Requirement: What now, Lieutenant? In a time limit of 5 minutes, determine what actions you would take, what orders you would issue, and what reports, if any, you would make.
+  `,
+    details: `
+    - Main roads are paved and two lanes wide
+    - Side roads are paved but only one and a half lanes wide
+    - Numerous narrow dirt alleyways only suitable for foot traffic
+    - You have only your organic weapons
+    - Radio contact with other squads and Battalion COC, though not always 100% due to urban environment
+    - Enemy rarely stands to fight, even after ambushes
+    - S-2 believes major engagements often center around religious sites
+  `,
+    map: "desertplatoon.png",
+    answerKey: `Answer Key for "Platoon Attack in Jalalabad"
+Objective Evaluation Criteria
+Situational Awareness and Threat Assessment
+Evaluate the student's understanding of the tactical environment, including the urban terrain and enemy capabilities.
+Assess the student's ability to identify potential threats and opportunities based on the provided situation.
+Consider how well the student anticipates enemy actions, particularly the likelihood of ambushes and the use of IEDs.
+Decision-Making and Planning
+Analyze the student's decision-making process, focusing on their ability to quickly develop a plan under pressure.
+Evaluate the clarity and feasibility of the orders given to subordinates.
+Assess whether the student considers all available resources, including support from allied clans and civil-military relations.
+Execution of Orders
+Review the student's ability to execute a coordinated response, including maneuvering squads effectively.
+Evaluate how well the student integrates 360-degree security measures and maintains communication with all elements.
+Assess the use of organic weapons and tactical positioning to cut off enemy retreat.
+Communication and Reporting
+Evaluate the student's ability to communicate effectively with their squad leaders and higher command.
+Assess how well the student prioritizes information in reports, such as requesting CASEVAC for casualties.
+Consider how effectively the student maintains situational updates to ensure command awareness.
+Adaptability and Flexibility
+Assess the student's ability to adapt their plan based on changing circumstances or new intelligence.
+Evaluate how well they adjust tactics if initial plans encounter unforeseen obstacles or resistance.
+Risk Management
+Analyze how well the student identifies and mitigates risks to personnel and mission success.
+Evaluate their consideration of collateral damage, especially in urban environments with civilian presence.
+General Guidance
+Encourage students to maintain a balance between aggressive action and caution, considering both mission objectives and troop safety.
+Emphasize the importance of maintaining situational awareness at all times, especially in complex urban environments.
+Highlight the need for clear, concise communication to ensure all units are informed and coordinated effectively.
+By using these criteria, instructors can provide a comprehensive evaluation of each student's tactical decision-making skills in this scenario.`,
   },
   {
-    title: "Operation Sahel Stability",
-    description: "CAF Platoon conducting stability operations in an African village",
-    type: "Stability",
-    level: "Intermediate",
-    situation: "Your CAF platoon is deployed to a UN peacekeeping mission in the Sahel region of Africa. You are operating in an area where an insurgency has been destabilizing local communities. Your platoon has been tasked with providing security to a village that has recently pledged support to the government but is now facing threats from the insurgents.",
-    mission: "Establish a presence in and around Village Alpha (Grid 789012) to protect the civilian population from insurgent intimidation and attacks while fostering positive relationships with local leaders and gathering intelligence on insurgent activities.",
-    details: "Your platoon is at full strength with three sections. You have been provided with two Light Armored Vehicles (LAVs) for mobility and fire support. The village has approximately 500 inhabitants and is situated near a critical water source. Local leaders have reported insurgent activity in the nearby hills. You are to maintain your presence for two weeks before being relieved by another platoon. Rules of Engagement are restrictive, emphasizing minimum necessary force and protection of civilians.",
-    map: "/public/sahel-village-alpha.jpg",
-    answerKey: "An ideal Frag-O for this situation would include:\n\n1. Intent: Establish a secure environment in and around Village Alpha, build trust with the local population, and disrupt insurgent activities.\n\n2. Concept of Operations:\n   a. Conduct regular patrols in and around the village.\n   b. Establish observation posts on key terrain features.\n   c. Engage with local leaders and population to build rapport and gather information.\n   d. Conduct targeted operations based on intelligence to disrupt insurgent activities.\n   e. Provide security for vital infrastructure, particularly the water source.\n\n3. Tasks:\n   1 Section: Conduct day patrols in the village and immediate surroundings.\n   2 Section: Establish and man OPs on high ground to the north and east of the village.\n   3 Section: Conduct night patrols and act as Quick Reaction Force (QRF).\n   LAV 1: Support 1 Section operations and provide overwatch for the water source.\n   LAV 2: Support 2 Section operations and conduct wider area patrols.\n\n4. Coordinating Instructions:\n   - Maintain a low profile and respectful demeanor when interacting with locals.\n   - Report all interactions with local population and suspected insurgent activities.\n   - Conduct daily key leader engagements.\n   - Establish local pattern of life and report any anomalies.\n   - Be prepared to provide humanitarian assistance if required.\n\n5. Service Support:\n   - Establish a secure platoon harbor outside the village.\n   - Conduct resupply operations every three days.\n   - Maintain 72 hours of supplies at all times.\n\n6. Command and Signals:\n   - Platoon HQ to be mobile, rotating between sections.\n   - Daily situation report to company HQ at 1800hrs.\n   - Use interpreters for all interactions with local population.\n   - Codewords: \"Sunray\" for insurgent sighting, \"Moonbeam\" for request QRF."
+    title: "Section Attack in Jalalabad",
+    description: "Suddenly, gunfire erupts from behind you. What will you do?",
+    type: "Combat",
+    level: "Section",
+    situation: `Scenario
+You are the 1st Squad leader, 2d Platoon, Company F, BLT 2/1, 11th MEU. Your company has recently taken over the area of responsibility (AOR) of Jalalabad, Afghanistan. After initial operations, organized resistance has ceased. However, insurgent and tribal fighters remain as active combatants.
+
+Your AOR is in an urban environment characterized by densely but haphazardly arranged mud brick houses of one and two stories with flat roofs, with the occasional taller building—usually a mosque or other religiously associated structure.
+
+The enemy you face wears no standardized military uniform and often appears in civilian dress, uses Soviet-era infantry weapons (AK–47s, light machine guns, and rocket propelled grenades), and has the occasional command of 82mm mortars and 12.7mm machine guns. Their main tactic is the ambush, initiated by RPG attack or improvised explosive device.
+
+The BLT has been relatively successful in matters of civil affairs and civil-military relations, initiating a "weapons buy back program." Of the seven major clans in the AO, the BLT has secured the support of one smaller clan but still faces resistance from several of the larger clans in the city and surrounding area.`,
+    mission: `Mission
+Your platoon is on its second patrol. After crossing the Rt 6 bridge, you enter the area controlled by the smaller clan that supports coalition forces. You are moving from south to north, your squad on the left flank, 2d Squad in the center with the command element, and 3d Squad on the right.
+
+Approximately 20 minutes after crossing the bridge, the patrol is broken by the sound of yelling and screaming kids coming at you from your left through an alley. You see four young boys, 8 to 10 years old, each with different types of ammunition:
+- One boy has a belt of 12.7mm around his neck
+- Two boys hold 82mm mortar rounds like dead fish, from their fin-tails (you note one is fused)
+- The fourth clasps a grenade, spoon in place, like a dead frog, but from your angle you cannot see signs of the pin
+
+At this instant, there is the sound of an explosion, and a large dust cloud forms to your front. Your 1st Fire Team leader reports:
+"Sergeant, Watson is down hard. Perez is hit too, but maybe not as bad."
+
+One kid drops his mortar round and flees, followed by the kid with the 12.7mm. Then, AK–47 fire erupts from a nearby building behind you.
+
+Requirement: What now, Sergeant? In a time limit of 5 minutes, determine what actions you would take, what orders you would issue, and what reports, if any, you would make.`,
+    details: `Details
+- Main roads are paved and two lanes wide
+- Side roads are paved but only one and a half lanes wide
+- Numerous narrow dirt alleyways only suitable for foot traffic
+- You have only your organic weapons
+- Radio contact with other squads and command element, though not always 100% due to urban environment
+- Enemy rarely stands to fight, even after ambushes
+- S-2 believes major engagements often center around religious sites`,
+    map: "desertsection.png",
+    answerKey: `Answer Key for "Section Attack in Jalalabad"
+Objective Evaluation Criteria
+Situational Awareness and Threat Assessment
+- Evaluate the student's understanding of the tactical environment, including the urban terrain and enemy capabilities.
+- Assess the student's ability to identify potential threats and opportunities based on the provided situation.
+- Consider how well the student anticipates enemy actions, particularly the likelihood of ambushes and the use of IEDs.
+
+Decision-Making and Planning
+- Analyze the student's decision-making process, focusing on their ability to quickly develop a plan under pressure.
+- Evaluate the clarity and feasibility of the orders given to subordinates.
+- Assess whether the student considers all available resources, including support from allied clans and civil-military relations.
+
+Execution of Orders
+- Review the student's ability to execute a coordinated response, including maneuvering squads effectively.
+- Evaluate how well the student integrates 360-degree security measures and maintains communication with all elements.
+- Assess the use of organic weapons and tactical positioning to cut off enemy retreat.
+
+Communication and Reporting
+- Evaluate the student's ability to communicate effectively with their squad leaders and higher command.
+- Assess how well the student prioritizes information in reports, such as requesting CASEVAC for casualties.
+- Consider how effectively the student maintains situational updates to ensure command awareness.
+
+Adaptability and Flexibility
+- Assess the student's ability to adapt their plan based on changing circumstances or new intelligence.
+- Evaluate how well they adjust tactics if initial plans encounter unforeseen obstacles or resistance.
+
+Risk Management
+- Analyze how well the student identifies and mitigates risks to personnel and mission success.
+- Evaluate their consideration of collateral damage, especially in urban environments with civilian presence.
+
+General Guidance
+- Encourage students to maintain a balance between aggressive action and caution, considering both mission objectives and troop safety.
+- Emphasize the importance of maintaining situational awareness at all times, especially in complex urban environments.
+- Highlight the need for clear, concise communication to ensure all units are informed and coordinated effectively.
+
+By using these criteria, instructors can provide a comprehensive evaluation of each student's tactical decision-making skills in this scenario.`
   },
 ];
 

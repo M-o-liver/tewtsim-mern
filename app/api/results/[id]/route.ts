@@ -12,11 +12,11 @@ export async function GET(request: Request, { params }: { params: { id: string }
 }
 
 export async function POST(request: Request, { params }: { params: { id: string }}) {
-  const { fragO, story, analysis } = await request.json()
+  const { fragO, story, analysis, username } = await request.json() // Ensure fragO is included
   await dbConnect()
   const result = await Result.findOneAndUpdate(
     { missionId: params.id },
-    { fragO, story, analysis },
+    { fragO, story, analysis, username }, // Include fragO in the update
     { new: true, upsert: true }
   )
   return NextResponse.json(result)

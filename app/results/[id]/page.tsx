@@ -13,15 +13,31 @@ interface Result {
 export default function ResultsPage({ params }: { params: { id: string } }) {
   const [result, setResult] = useState<Result | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [username, setUsername] = useState<string | null>(null);
   const router = useRouter();
 
-  const generateResult = useCallback(async (fragO: string, answerKey: string, username: string): Promise<Result> => {
-    const story = await generateStory(fragO, answerKey, username);
-    const analysis = await generateAnalysis(fragO, answerKey, username);
+  const generateResult = useCallback(async (fragO: string, answerKey: string, username: string, mission: string, details: string, situation: string): Promise<Result> => {
+    const story = await generateStory(fragO, username, mission, details, situation);
+    const analysis = await generateAnalysis(fragO, answerKey, username, story);
     return { fragO, story, analysis };
   }, []);
 
   useEffect(() => {
+    const fetchUserData = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      const response = await fetch('/api/user', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      if (response.ok) {
+        const userData = await response.json();
+        setUsername(userData.username);
+      }
+    };
+
     const fetchResult = async () => {
       try {
         setIsLoading(true);
@@ -31,25 +47,25 @@ export default function ResultsPage({ params }: { params: { id: string } }) {
         if (data.fragO && data.story && data.analysis) {
           setResult(data);
         } else {
-          // If the result doesn't exist, generate it
           const fragOResponse = await fetch(`/api/answers/${params.id}`);
           const fragOData = await fragOResponse.json();
           const missionResponse = await fetch(`/api/missions/${params.id}`);
           const missionData = await missionResponse.json();
-          const userResponse = await fetch('/api/user'); // Assuming you have an endpoint to get the current user
-          const userData = await userResponse.json();
 
-          const generatedResult = await generateResult(fragOData.fragO, missionData.answerKey, userData.username);
-          setResult(generatedResult);
+          // Only generate a new result if the username is available
+          if (username) {
+            const generatedResult = await generateResult(fragOData.fragO, missionData.answerKey, username, missionData.mission, missionData.details, missionData.situation);
+            setResult(generatedResult);
 
-          // Save the generated result
-          await fetch(`/api/results/${params.id}`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(generatedResult),
-          });
+            // Save the generated result
+            await fetch(`/api/results/${params.id}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ ...generatedResult, username }),
+            });
+          }
         }
       } catch (error) {
         console.error('Error fetching or generating result:', error);
@@ -58,31 +74,32 @@ export default function ResultsPage({ params }: { params: { id: string } }) {
       }
     };
 
+    fetchUserData();
     fetchResult();
-  }, [params.id, generateResult]);
+  }, [params.id, username, generateResult]);
 
-  const generateStory = async (fragO: string, answerKey: string, username: string): Promise<string> => {
+  const generateStory = async (fragO: string, username: string, mission: string, details: string, situation: string): Promise<string> => {
     const response = await fetch('/api/openai', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        prompt: `Generate a detailed story based on the following Fragmentary Order (Frag-O) submitted by Captain ${username} for a military mission. Compare the Frag-O to the provided answer key and create a narrative that incorporates the decisions made and their outcomes. Include both positive and negative consequences of the decisions:\n\nFrag-O:\n${fragO}\n\nAnswer Key:\n${answerKey}\n\nStory:`,
+        prompt: `You are a military strategist. Based on the following Frag-O and the situation, generate a detailed narrative that describes the mission's execution. Include key events, decisions made, and the outcome of the mission. Name the officer Second Lieutenant ${username}.\n\nFrag-O: ${fragO}\nSituation: ${situation}\nMission: ${mission}\nDetails: ${details}\n\nNarrative:`,
       }),
     });
     const data = await response.json();
     return data.content;
   };
 
-  const generateAnalysis = async (fragO: string, answerKey: string, username: string): Promise<string> => {
+  const generateAnalysis = async (fragO: string, answerKey: string, username: string, story: string): Promise<string> => {
     const response = await fetch('/api/openai', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        prompt: `Analyze the following Fragmentary Order (Frag-O) submitted by Captain ${username} for a military mission. Compare it to the provided answer key and provide a detailed assessment of the plan. Highlight strengths, potential weaknesses, and areas for improvement. Consider factors such as clarity of mission statement, appropriateness of chosen course of action, completeness of key tasks, and effectiveness of coordination instructions:\n\nFrag-O:\n${fragO}\n\nAnswer Key:\n${answerKey}\n\nAnalysis:`,
+        prompt: `As a military analyst, evaluate the following Frag-O and the generated story. Provide a detailed assessment of the effectiveness of the plan, highlighting strengths, weaknesses, and areas for improvement. Include comparisons to the answer key where applicable.\n\nFrag-O: ${fragO}\nStory: ${story}\nAnswer Key: ${answerKey}\n\nAnalysis:`,
       }),
     });
     const data = await response.json();

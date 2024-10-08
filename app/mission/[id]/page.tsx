@@ -39,7 +39,7 @@ export default function MissionPage({ params }: { params: { id: string } }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ missionId: params.id, fragO }),
+        body: JSON.stringify({ missionId: params.id, fragO }), // Ensure fragO is included
       })
       router.push(`/results/${params.id}`)
     } catch (error) {
