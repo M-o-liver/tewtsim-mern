@@ -5,13 +5,16 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 
 interface Mission {
-  _id: string
-  title: string
-  situation: string
-  mission: string
-  details: string
-  map: string
-  actionPrompt: string
+  _id: string;
+  title: string;
+  situation: string;
+  mission: string;
+  execution: string;
+  serviceAndSupport: string; // Ensure this is included
+  commandAndSignals: string; // Ensure this is included
+  details: string;
+  map: string;
+  actionPrompt: string;
 }
 
 const Spinner = () => (
@@ -43,6 +46,7 @@ export default function MissionPage({ params }: { params: { id: string } }) {
           throw new Error('Failed to fetch mission')
         }
         const data = await response.json()
+        console.log('Fetched mission data:', data) // Log the fetched data
         setMission(data)
       } catch (error) {
         console.error('Error fetching mission:', error)
@@ -54,7 +58,7 @@ export default function MissionPage({ params }: { params: { id: string } }) {
 
   const handleSubmit = useCallback(async () => {
     try {
-      const response = await fetch(`/api/answers/${params.id}`, {
+      const response = await fetch(`/api/frago/${params.id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -105,6 +109,18 @@ export default function MissionPage({ params }: { params: { id: string } }) {
               <p>{mission.mission}</p>
             </section>
             <section className="bg-gray-800 p-6 rounded-lg">
+              <h2 className="text-xl font-semibold mb-4">Execution</h2>
+              <p>{mission.execution}</p>
+            </section>
+            <section className="bg-gray-800 p-6 rounded-lg">
+              <h2 className="text-xl font-semibold mb-4">Service and Support</h2>
+              <p>{mission.serviceAndSupport}</p>
+            </section>
+            <section className="bg-gray-800 p-6 rounded-lg">
+              <h2 className="text-xl font-semibold mb-4">Command and Signals</h2>
+              <p>{mission.commandAndSignals}</p>
+            </section>
+            <section className="bg-gray-800 p-6 rounded-lg">
               <h2 className="text-xl font-semibold mb-4">Details</h2>
               <p>{mission.details}</p>
             </section>
@@ -119,7 +135,7 @@ export default function MissionPage({ params }: { params: { id: string } }) {
             onClick={handleUnderstand}
             className="md:col-span-3 w-full bg-green-700 hover:bg-green-600 text-black font-bold py-2 px-4 rounded transition duration-300"
           >
-            I have read and understood the situation
+            I have read and understood the orders
           </button>
         </div>
       )}

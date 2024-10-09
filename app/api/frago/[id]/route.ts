@@ -12,12 +12,12 @@ export async function GET(request: Request, { params }: { params: { id: string }
 }
 
 export async function POST(request: Request, { params }: { params: { id: string } }) {
-  const { fragO } = await request.json() // Ensure fragO is being captured
-  await dbConnect()
+  const { fragO, username } = await request.json(); // Ensure username is included
+  await dbConnect();
   const result = await Result.findOneAndUpdate(
     { missionId: params.id },
-    { fragO }, // Save fragO
+    { fragO, username }, // Save fragO and username
     { new: true, upsert: true }
-  )
-  return NextResponse.json(result)
+  );
+  return NextResponse.json(result);
 }

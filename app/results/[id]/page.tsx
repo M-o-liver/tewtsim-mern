@@ -12,9 +12,13 @@ interface Result {
 }
 
 interface MissionData {
+  _id: string;
   title: string;
   situation: string;
   mission: string;
+  execution: string;
+  serviceAndSupport: string;
+  commandAndSignals: string;
   details: string;
 }
 
@@ -36,18 +40,19 @@ export default function ResultsPage({ params }: { params: { id: string } }) {
   const [result, setResult] = useState<Result | null>(null);
   const [mission, setMission] = useState<MissionData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const { username, isLoading: isAuthLoading } = useAuth();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchDataAndPost = async () => {
       if (isAuthLoading) return;
 
       try {
         setIsLoading(true);
         
         // Fetch the fragO
-        const fragOResponse = await fetch(`/api/answers/${params.id}`);
+        const fragOResponse = await fetch(`/api/frago/${params.id}`);
         const fragOData = await fragOResponse.json();
         
         // Fetch the mission data
@@ -57,41 +62,64 @@ export default function ResultsPage({ params }: { params: { id: string } }) {
         setMission(missionData);
 
         // Generate the story
-        const story = await generateStory(fragOData.fragO, missionData);
+        const story = await generateStory(fragOData.fragO, missionData, username);
         
         // Generate the analysis
         const analysis = await generateAnalysis(fragOData.fragO, missionData, story, username);
         
-        setResult({ fragO: fragOData.fragO, story, analysis });
+        const resultData = { fragO: fragOData.fragO, story, analysis };
+        setResult(resultData);
+
+        // Post the results to the database
+        await postResultsToDatabase(params.id, username, story, analysis);
+
       } catch (error) {
         console.error('Error fetching or generating result:', error);
+        setError('An error occurred while processing the mission results. Please try again.');
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchData();
+    fetchDataAndPost();
   }, [params.id, username, isAuthLoading]);
 
-  const generateStory = async (fragO: string, missionData: MissionData): Promise<string> => {
-    const prompt = `You are a military scenario writer tasked with generating realistic and balanced mission outcomes based on the provided mission context and Frag-O. Your goal is to ensure that the mission's success or failure accurately reflects the quality of the Frag-O. 
+  const generateStory = async (fragO: string, missionData: MissionData, username: string | null): Promise<string> => {
+    const prompt = `You are a highly experienced military scenario writer tasked with generating a realistic and balanced mission outcome based on the provided mission context and Fragmentary Order (Frag-O). Your goal is to create a compelling narrative that accurately reflects the quality of the Frag-O and its impact on the mission's success or failure.
+
+**Key Points:**
+1. The platoon commander, ${username || 'Unknown'}, wrote the Frag-O in just five minutes to accomplish their task.
+2. The story should realistically depict how the mission unfolds based on the Frag-O's strengths and weaknesses.
+3. Consider the time constraint under which the Frag-O was written and how this might affect its quality and completeness.
 
 **Guidelines:**
-- **Exceptional Frag-O:** If the Frag-O demonstrates strong leadership, clear objectives, decisive actions, and effective strategies, the mission should be highly successful with minimal issues.
-- **Mediocre Frag-O:** If the Frag-O shows average leadership, some indecision, or unclear directives, the mission should be completed but with notable challenges, delays, or minor setbacks.
-- **Poor Frag-O:** If the Frag-O is flawed, unclear, indecisive, or shows poor leadership, the mission must fail or encounter significant difficulties.
+- Exceptional Frag-O: If the Frag-O demonstrates strong leadership, clear objectives, decisive actions, and effective strategies despite the time constraint, the mission should be highly successful with minimal issues.
+- Good Frag-O: If the Frag-O is solid but shows some signs of being rushed, the mission should be successful but with some minor challenges or unexpected situations.
+- Mediocre Frag-O: If the Frag-O shows average leadership, some indecision, or unclear directives, possibly due to time pressure, the mission should be completed but with notable challenges, delays, or setbacks.
+- Poor Frag-O: If the Frag-O is severely flawed, unclear, indecisive, or shows poor leadership, likely due to the time constraint, the mission must fail or encounter significant difficulties.
 
 **Mission Context:**
-- **Title:** ${missionData.title}
-- **Situation:** ${missionData.situation}
-- **Mission:** ${missionData.mission}
-- **Details:** ${missionData.details}
+- Title: ${missionData.title}
+- Situation: ${missionData.situation}
+- Mission: ${missionData.mission}
+- Execution: ${missionData.execution}
+- Service and Support: ${missionData.serviceAndSupport}
+- Command and Signals: ${missionData.commandAndSignals}
+- Details: ${missionData.details}
 
 **Frag-O:**
 ${fragO}
 
 **Task:**
-Generate a detailed and realistic story of the mission execution that aligns with the quality of the Frag-O. Ensure that the narrative accurately reflects the strengths or weaknesses present in the Frag-O without exaggeration.`;
+Generate a detailed and realistic story of the mission execution that aligns with the quality of the Frag-O. Ensure that the narrative:
+1. Accurately reflects the strengths and weaknesses present in the Frag-O.
+2. Considers the time pressure under which the Frag-O was written.
+3. Includes specific examples of how the Frag-O's content (or lack thereof) directly impacts the mission's outcome.
+4. Describes the actions and decisions of Platoon Commander ${username || 'Unknown'} throughout the mission.
+5. Incorporates realistic challenges, unexpected events, or enemy actions that test the effectiveness of the Frag-O.
+6. Concludes with a clear outcome that logically follows from the events of the story and the quality of the Frag-O.
+
+Your story should be engaging, realistic, and provide valuable insights into the relationship between the Frag-O's quality and the mission's success or failure.`;
 
     console.log('Story Generation Prompt:', prompt);
 
@@ -107,13 +135,16 @@ Generate a detailed and realistic story of the mission execution that aligns wit
   };
 
   const generateAnalysis = async (fragO: string, missionData: MissionData, story: string, username: string | null): Promise<string> => {
-    const prompt = `You are a senior military officer conducting a harsh and critical after-action review. Your analysis should be directly based on the provided Frag-O and the resulting mission outcome. Provide a brutally honest assessment, highlighting major flaws, critical errors, and any signs of indecision or lack of clear direction. Do not sugarcoat or provide false praise.
+    const prompt = `You are a senior military officer conducting a comprehensive after-action review (AAR). Your analysis should be based on the provided Frag-O, mission context, and the resulting mission outcome. Your goal is to provide a fair but challenging assessment that will motivate the platoon commander to improve their skills.
 
 **Mission Context:**
-- **Title:** ${missionData.title}
-- **Situation:** ${missionData.situation}
-- **Mission:** ${missionData.mission}
-- **Details:** ${missionData.details}
+- Title: ${missionData.title}
+- Situation: ${missionData.situation}
+- Mission: ${missionData.mission}
+- Execution: ${missionData.execution}
+- Service and Support: ${missionData.serviceAndSupport}
+- Command and Signals: ${missionData.commandAndSignals}
+- Details: ${missionData.details}
 
 **Frag-O:**
 ${fragO}
@@ -124,11 +155,18 @@ ${story}
 **Platoon Commander:** ${username || 'Unknown'}
 
 **Task:**
-Provide a detailed, critical analysis of ${username || 'the platoon commander'}'s performance. Your assessment should include:
-- Specific flaws and critical errors in the Frag-O.
-- How these issues directly impacted the mission outcome.
-- Clear and actionable recommendations for improvement.
-- Avoid any form of praise if performance was lacking.`;
+Provide a detailed, critical analysis of ${username || 'the platoon commander'}'s performance. Your assessment should:
+
+1. Offer a balanced view of the commander's performance, acknowledging both strengths and weaknesses.
+2. Identify specific elements of the Frag-O that contributed to the mission's success or failure.
+3. Analyze the commander's decision-making process, considering the 5-minute time constraint for creating the Frag-O.
+4. Evaluate the commander's ability to adapt to unexpected situations during the mission.
+5. Assess the overall effectiveness of the commander's leadership and communication.
+6. Provide clear, actionable recommendations for improvement, focusing on key areas that would have the most significant impact.
+7. Include constructive criticism that challenges the commander to strive for excellence in future missions.
+8. Conclude with a motivational statement that encourages the commander to learn from this experience and continue developing their skills.
+
+Your analysis should be thorough, fair, and designed to push the commander to improve while also recognizing their efforts and potential. The goal is to create an engaging experience that motivates the commander to challenge themselves and strive for better performance in future missions.`;
 
     console.log('Analysis Generation Prompt:', prompt);
 
@@ -143,8 +181,46 @@ Provide a detailed, critical analysis of ${username || 'the platoon commander'}'
     return data.content;
   };
 
+  const postResultsToDatabase = async (missionId: string, username: string | null, story: string, analysis: string) => {
+    try {
+      const response = await fetch(`/api/results/${missionId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, story, analysis }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to post results to database');
+      }
+
+      console.log('Results posted successfully');
+    } catch (error) {
+      console.error('Error posting results to database:', error);
+      setError('Failed to save results. Please try again.');
+    }
+  };
+
   if (isLoading || isAuthLoading) {
     return <Spinner />;
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-900 text-red-500 p-8 flex items-center justify-center">
+        <div className="bg-gray-800 p-6 rounded-lg text-center">
+          <h1 className="text-2xl font-bold mb-4">Error</h1>
+          <p>{error}</p>
+          <button
+            onClick={() => router.push('/landing')}
+            className="mt-4 bg-red-700 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300"
+          >
+            Return to Mission Select
+          </button>
+        </div>
+      </div>
+    );
   }
 
   if (!result || !mission) {
