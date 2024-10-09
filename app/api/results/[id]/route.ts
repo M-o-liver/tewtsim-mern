@@ -2,8 +2,6 @@ import { NextResponse } from 'next/server'
 import dbConnect from '@/lib/mongodb'
 import Result from '@/models/Result'
 
-export const dynamic = 'force-dynamic';
-
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   await dbConnect()
   const result = await Result.findOne({ missionId: params.id })
