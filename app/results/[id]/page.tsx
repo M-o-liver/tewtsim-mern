@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
+import { useAuth } from '../../../hooks/useAuth'; // Adjust the import path as necessary
 
 interface Result {
   fragO: string;
@@ -10,63 +11,44 @@ interface Result {
   analysis: string;
 }
 
+interface MissionData {
+  title: string;
+  situation: string;
+  mission: string;
+  details: string;
+}
+
 export default function ResultsPage({ params }: { params: { id: string } }) {
   const [result, setResult] = useState<Result | null>(null);
+  const [mission, setMission] = useState<MissionData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [username, setUsername] = useState<string | null>(null);
   const router = useRouter();
-
-  const generateResult = useCallback(async (fragO: string, answerKey: string, username: string, mission: string, details: string, situation: string): Promise<Result> => {
-    const story = await generateStory(fragO, username, mission, details, situation);
-    const analysis = await generateAnalysis(fragO, answerKey, username, story);
-    return { fragO, story, analysis };
-  }, []);
+  const { username, isLoading: isAuthLoading } = useAuth();
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      const token = localStorage.getItem('token');
-      if (!token) return;
+    const fetchData = async () => {
+      if (isAuthLoading) return;
 
-      const response = await fetch('/api/user', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      if (response.ok) {
-        const userData = await response.json();
-        setUsername(userData.username);
-      }
-    };
-
-    const fetchResult = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(`/api/results/${params.id}`);
-        const data = await response.json();
+        
+        // Fetch the fragO
+        const fragOResponse = await fetch(`/api/answers/${params.id}`);
+        const fragOData = await fragOResponse.json();
+        
+        // Fetch the mission data
+        const missionResponse = await fetch(`/api/missions/${params.id}`);
+        const missionData: MissionData = await missionResponse.json();
+        
+        setMission(missionData);
 
-        if (data.fragO && data.story && data.analysis) {
-          setResult(data);
-        } else {
-          const fragOResponse = await fetch(`/api/answers/${params.id}`);
-          const fragOData = await fragOResponse.json();
-          const missionResponse = await fetch(`/api/missions/${params.id}`);
-          const missionData = await missionResponse.json();
-
-          // Only generate a new result if the username is available
-          if (username) {
-            const generatedResult = await generateResult(fragOData.fragO, missionData.answerKey, username, missionData.mission, missionData.details, missionData.situation);
-            setResult(generatedResult);
-
-            // Save the generated result
-            await fetch(`/api/results/${params.id}`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ ...generatedResult, username }),
-            });
-          }
-        }
+        // Generate the story
+        const story = await generateStory(fragOData.fragO, missionData);
+        
+        // Generate the analysis
+        const analysis = await generateAnalysis(fragOData.fragO, missionData, story, username);
+        
+        setResult({ fragO: fragOData.fragO, story, analysis });
       } catch (error) {
         console.error('Error fetching or generating result:', error);
       } finally {
@@ -74,50 +56,87 @@ export default function ResultsPage({ params }: { params: { id: string } }) {
       }
     };
 
-    fetchUserData();
-    fetchResult();
-  }, [params.id, username, generateResult]);
+    fetchData();
+  }, [params.id, username, isAuthLoading]);
 
-  const generateStory = async (fragO: string, username: string, mission: string, details: string, situation: string): Promise<string> => {
+  const generateStory = async (fragO: string, missionData: MissionData): Promise<string> => {
+    const prompt = `You are a military scenario writer. Based on the following mission context and Frag-O, generate a realistic story of how the mission unfolded. Be extremely critical and honest - if the Frag-O is flawed, unclear, or indecisive, the mission MUST fail or encounter significant difficulties. Do not beautify a bad plan. If the Frag-O shows poor leadership, indecision, or lack of clear direction, the story should reflect these issues prominently.
+
+Mission Context:
+Title: ${missionData.title}
+Situation: ${missionData.situation}
+Mission: ${missionData.mission}
+Details: ${missionData.details}
+
+Frag-O:
+${fragO}
+
+Generate a detailed, realistic story of the mission execution, ensuring that any flaws, indecision, or lack of clear direction in the Frag-O are accurately reflected in the mission's outcome:`;
+
+    console.log('Story Generation Prompt:', prompt);
+
     const response = await fetch('/api/openai', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        prompt: `You are a military strategist. Based on the following Frag-O and the situation, generate a detailed narrative that describes the mission's execution. Include key events, decisions made, and the outcome of the mission. Name the officer Second Lieutenant ${username}.\n\nFrag-O: ${fragO}\nSituation: ${situation}\nMission: ${mission}\nDetails: ${details}\n\nNarrative:`,
-      }),
+      body: JSON.stringify({ prompt }),
     });
     const data = await response.json();
     return data.content;
   };
 
-  const generateAnalysis = async (fragO: string, answerKey: string, username: string, story: string): Promise<string> => {
+  const generateAnalysis = async (fragO: string, missionData: MissionData, story: string, username: string | null): Promise<string> => {
+    const prompt = `You are a senior military officer conducting a harsh and critical after-action review. Analyze the performance of the platoon commander based on their Frag-O and the resulting mission outcome. Provide a brutally honest assessment, highlighting major flaws, critical errors, and any signs of indecision or lack of clear direction. Do not sugarcoat or provide false praise. If the Frag-O is terrible, unclear, or shows poor leadership, the analysis MUST reflect that harshly. Be direct and uncompromising in your feedback.
+
+Mission Context:
+Title: ${missionData.title}
+Situation: ${missionData.situation}
+Mission: ${missionData.mission}
+Details: ${missionData.details}
+
+Frag-O:
+${fragO}
+
+Mission Outcome:
+${story}
+
+Platoon Commander: ${username || 'Unknown'}
+
+Provide a detailed, critical analysis of ${username || 'the platoon commander'}'s performance and specific recommendations for improvement. If the performance was poor, state it clearly and explain why. Focus on any indecision, lack of clear direction, or poor leadership shown in the Frag-O and how it affected the mission outcome:`;
+
+    console.log('Analysis Generation Prompt:', prompt);
+
     const response = await fetch('/api/openai', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        prompt: `As a military analyst, evaluate the following Frag-O and the generated story. Provide a detailed assessment of the effectiveness of the plan, highlighting strengths, weaknesses, and areas for improvement. Include comparisons to the answer key where applicable.\n\nFrag-O: ${fragO}\nStory: ${story}\nAnswer Key: ${answerKey}\n\nAnalysis:`,
-      }),
+      body: JSON.stringify({ prompt }),
     });
     const data = await response.json();
     return data.content;
   };
 
-  if (isLoading) {
-    return <div className="text-green-500">Generating mission results...</div>;
+  if (isLoading || isAuthLoading) {
+    return <div className="text-green-500">Loading mission results...</div>;
   }
 
-  if (!result) {
-    return <div className="text-green-500">Error: Unable to generate mission results.</div>;
+  if (!result || !mission) {
+    return <div className="text-green-500">Error: Unable to load mission results.</div>;
   }
 
   return (
     <div className="min-h-screen bg-gray-900 text-green-500 p-8">
       <h1 className="text-3xl font-bold mb-8">Mission Results</h1>
       <div className="space-y-8">
+        <section className="bg-gray-800 p-6 rounded-lg">
+          <h2 className="text-2xl font-semibold mb-4">Mission Details</h2>
+          <p><strong>Title:</strong> {mission.title}</p>
+          <p><strong>Situation:</strong> {mission.situation}</p>
+          <p><strong>Mission:</strong> {mission.mission}</p>
+          <p><strong>Details:</strong> {mission.details}</p>
+        </section>
         <section className="bg-gray-800 p-6 rounded-lg">
           <h2 className="text-2xl font-semibold mb-4">Your Frag-O</h2>
           <ReactMarkdown className="prose prose-invert prose-green">{result.fragO}</ReactMarkdown>
@@ -127,7 +146,7 @@ export default function ResultsPage({ params }: { params: { id: string } }) {
           <ReactMarkdown className="prose prose-invert prose-green">{result.story}</ReactMarkdown>
         </section>
         <section className="bg-gray-800 p-6 rounded-lg">
-          <h2 className="text-2xl font-semibold mb-4">Analysis</h2>
+          <h2 className="text-2xl font-semibold mb-4">Performance Analysis and Recommendations</h2>
           <ReactMarkdown className="prose prose-invert prose-green">{result.analysis}</ReactMarkdown>
         </section>
       </div>

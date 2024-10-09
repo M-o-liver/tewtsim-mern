@@ -34,13 +34,14 @@ export default function MissionPage({ params }: { params: { id: string } }) {
 
   const handleSubmit = async () => {
     try {
-      await fetch('/api/answers', {
+      console.log("Submitting Frag-O:", fragO); // Log fragO here
+      await fetch(`/api/answers/${params.id}`, { // Use the correct URL
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ missionId: params.id, fragO }), // Ensure fragO is included
-      })
+        body: JSON.stringify({ fragO }), // Ensure fragO is included
+      });
       router.push(`/results/${params.id}`)
     } catch (error) {
       console.error('Error submitting Frag-O:', error)
