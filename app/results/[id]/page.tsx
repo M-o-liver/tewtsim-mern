@@ -18,6 +18,20 @@ interface MissionData {
   details: string;
 }
 
+const Spinner = () => (
+  <div className="flex flex-col items-center justify-center h-screen">
+    <div className="relative w-24 h-24">
+      <div className="absolute inset-0 border-t-4 border-green-500 rounded-full animate-spin"></div>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+    </div>
+    <p className="text-green-500 mt-4 text-lg font-bold">Loading mission results...</p>
+  </div>
+);
+
 export default function ResultsPage({ params }: { params: { id: string } }) {
   const [result, setResult] = useState<Result | null>(null);
   const [mission, setMission] = useState<MissionData | null>(null);
@@ -60,18 +74,24 @@ export default function ResultsPage({ params }: { params: { id: string } }) {
   }, [params.id, username, isAuthLoading]);
 
   const generateStory = async (fragO: string, missionData: MissionData): Promise<string> => {
-    const prompt = `You are a military scenario writer. Based on the following mission context and Frag-O, generate a realistic story of how the mission unfolded. Be extremely critical and honest - if the Frag-O is flawed, unclear, or indecisive, the mission MUST fail or encounter significant difficulties. Do not beautify a bad plan. If the Frag-O shows poor leadership, indecision, or lack of clear direction, the story should reflect these issues prominently.
+    const prompt = `You are a military scenario writer tasked with generating realistic and balanced mission outcomes based on the provided mission context and Frag-O. Your goal is to ensure that the mission's success or failure accurately reflects the quality of the Frag-O. 
 
-Mission Context:
-Title: ${missionData.title}
-Situation: ${missionData.situation}
-Mission: ${missionData.mission}
-Details: ${missionData.details}
+**Guidelines:**
+- **Exceptional Frag-O:** If the Frag-O demonstrates strong leadership, clear objectives, decisive actions, and effective strategies, the mission should be highly successful with minimal issues.
+- **Mediocre Frag-O:** If the Frag-O shows average leadership, some indecision, or unclear directives, the mission should be completed but with notable challenges, delays, or minor setbacks.
+- **Poor Frag-O:** If the Frag-O is flawed, unclear, indecisive, or shows poor leadership, the mission must fail or encounter significant difficulties.
 
-Frag-O:
+**Mission Context:**
+- **Title:** ${missionData.title}
+- **Situation:** ${missionData.situation}
+- **Mission:** ${missionData.mission}
+- **Details:** ${missionData.details}
+
+**Frag-O:**
 ${fragO}
 
-Generate a detailed, realistic story of the mission execution, ensuring that any flaws, indecision, or lack of clear direction in the Frag-O are accurately reflected in the mission's outcome:`;
+**Task:**
+Generate a detailed and realistic story of the mission execution that aligns with the quality of the Frag-O. Ensure that the narrative accurately reflects the strengths or weaknesses present in the Frag-O without exaggeration.`;
 
     console.log('Story Generation Prompt:', prompt);
 
@@ -87,23 +107,28 @@ Generate a detailed, realistic story of the mission execution, ensuring that any
   };
 
   const generateAnalysis = async (fragO: string, missionData: MissionData, story: string, username: string | null): Promise<string> => {
-    const prompt = `You are a senior military officer conducting a harsh and critical after-action review. Analyze the performance of the platoon commander based on their Frag-O and the resulting mission outcome. Provide a brutally honest assessment, highlighting major flaws, critical errors, and any signs of indecision or lack of clear direction. Do not sugarcoat or provide false praise. If the Frag-O is terrible, unclear, or shows poor leadership, the analysis MUST reflect that harshly. Be direct and uncompromising in your feedback.
+    const prompt = `You are a senior military officer conducting a harsh and critical after-action review. Your analysis should be directly based on the provided Frag-O and the resulting mission outcome. Provide a brutally honest assessment, highlighting major flaws, critical errors, and any signs of indecision or lack of clear direction. Do not sugarcoat or provide false praise.
 
-Mission Context:
-Title: ${missionData.title}
-Situation: ${missionData.situation}
-Mission: ${missionData.mission}
-Details: ${missionData.details}
+**Mission Context:**
+- **Title:** ${missionData.title}
+- **Situation:** ${missionData.situation}
+- **Mission:** ${missionData.mission}
+- **Details:** ${missionData.details}
 
-Frag-O:
+**Frag-O:**
 ${fragO}
 
-Mission Outcome:
+**Mission Outcome:**
 ${story}
 
-Platoon Commander: ${username || 'Unknown'}
+**Platoon Commander:** ${username || 'Unknown'}
 
-Provide a detailed, critical analysis of ${username || 'the platoon commander'}'s performance and specific recommendations for improvement. If the performance was poor, state it clearly and explain why. Focus on any indecision, lack of clear direction, or poor leadership shown in the Frag-O and how it affected the mission outcome:`;
+**Task:**
+Provide a detailed, critical analysis of ${username || 'the platoon commander'}'s performance. Your assessment should include:
+- Specific flaws and critical errors in the Frag-O.
+- How these issues directly impacted the mission outcome.
+- Clear and actionable recommendations for improvement.
+- Avoid any form of praise if performance was lacking.`;
 
     console.log('Analysis Generation Prompt:', prompt);
 
@@ -119,7 +144,7 @@ Provide a detailed, critical analysis of ${username || 'the platoon commander'}'
   };
 
   if (isLoading || isAuthLoading) {
-    return <div className="text-green-500">Loading mission results...</div>;
+    return <Spinner />;
   }
 
   if (!result || !mission) {
