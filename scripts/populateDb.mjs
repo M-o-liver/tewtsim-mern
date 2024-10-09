@@ -24,6 +24,7 @@ const MissionSchema = new mongoose.Schema({
   mission: { type: String, required: true },
   details: { type: String, required: true },
   map: { type: String, required: true },
+  actionPrompt: { type: String, required: true },
   answerKey: { type: String, required: true },
 });
 
@@ -69,6 +70,13 @@ const missions = [
     - Enemy rarely stands to fight, even after ambushes
     - S-2 believes major engagements often center around religious sites
   `,
+    actionPrompt: `
+Approximately 20 minutes after crossing the bridge, you hear and see an explosion where you expect 1st Squad to be, followed by automatic weapons fire and semi-automatic weapons fire. 2nd Squad leader executes halt in place and 360 security. Firing continues for 30 seconds before you receive 1st Squad report:
+
+"Enemy squad with AKs, RPG, mortar IED. Watson and Perez are down. Need CASEVAC. Break. Recommend 2nd Squad move north of my position and cut off retreating enemy elements. Over."
+
+Requirement: What now, Lieutenant? In a time limit of 5 minutes, determine what actions you would take, what orders you would issue, and what reports, if any, you would make.
+`,
     map: "desertplatoon.png",
     answerKey: `Answer Key for "Platoon Attack in Jalalabad"
 Objective Evaluation Criteria
@@ -135,6 +143,13 @@ Requirement: What now, Sergeant? In a time limit of 5 minutes, determine what ac
 - Radio contact with other squads and command element, though not always 100% due to urban environment
 - Enemy rarely stands to fight, even after ambushes
 - S-2 believes major engagements often center around religious sites`,
+    actionPrompt: `
+Approximately 20 minutes after crossing the bridge, you hear and see an explosion where you expect 1st Squad to be, followed by automatic weapons fire and semi-automatic weapons fire. 2nd Squad leader executes halt in place and 360 security. Firing continues for 30 seconds before you receive 1st Squad report:
+
+"Enemy squad with AKs, RPG, mortar IED. Watson and Perez are down. Need CASEVAC. Break. Recommend 2nd Squad move north of my position and cut off retreating enemy elements. Over."
+
+Requirement: What now, Lieutenant? In a time limit of 5 minutes, determine what actions you would take, what orders you would issue, and what reports, if any, you would make.
+`,
     map: "desertsection.png",
     answerKey: `Answer Key for "Section Attack in Jalalabad"
 Objective Evaluation Criteria

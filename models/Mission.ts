@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 const MissionSchema = new mongoose.Schema({
   title: { type: String, required: true },
@@ -9,6 +9,8 @@ const MissionSchema = new mongoose.Schema({
   mission: { type: String, required: true },
   details: { type: String, required: true },
   map: { type: String, required: true },
-})
+  actionPrompt: { type: String, required: true },
+  answerKey: { type: String, required: true },
+});
 
-export default mongoose.models.Mission || mongoose.model('Mission', MissionSchema)
+export default mongoose.models.Mission || mongoose.model('Mission', MissionSchema);

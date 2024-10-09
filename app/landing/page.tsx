@@ -25,6 +25,20 @@ interface Result {
   };
 }
 
+const Spinner = () => (
+  <div className="flex flex-col items-center justify-center h-screen">
+    <div className="relative w-24 h-24">
+      <div className="absolute inset-0 border-t-4 border-green-500 rounded-full animate-spin"></div>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+    </div>
+    <p className="text-green-500 mt-4 text-lg font-bold">Welcome to Tewtsim, Loading...</p>
+  </div>
+);
+
 export default function LandingPage() {
   const [missions, setMissions] = useState<Mission[]>([])
   const [results, setResults] = useState<Result[]>([])
@@ -63,7 +77,7 @@ export default function LandingPage() {
   const userResults = results.filter(result => result.username === username);
 
   if (isLoading) {
-    return <div className="min-h-screen bg-gray-900 text-white p-8 flex items-center justify-center">Loading...</div>
+    return <Spinner />;
   }
 
   return (
