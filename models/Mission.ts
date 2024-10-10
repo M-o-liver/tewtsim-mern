@@ -11,7 +11,8 @@ const MissionSchema = new mongoose.Schema({
   serviceAndSupport: { type: String, required: true }, // New field for Service and Support
   commandAndSignals: { type: String, required: true }, // New field for Command
   details: { type: String, required: true },
-  map: { type: String, required: true },
+  mapmacro: { type: String, required: true },
+  mapmicro: { type: String, required: true },
   actionPrompt: { type: String, required: true },
   answerKey: { type: String, required: true },
 });

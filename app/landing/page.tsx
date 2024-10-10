@@ -105,7 +105,7 @@ export default function LandingPage() {
             <ResultsCard key={result._id} result={result} />
           ))
         ) : (
-          <p className="text-gray-400">No results found for your username.</p>
+          <p className="text-gray-400">No results found for your username. Sounds like its time to play a mission!</p>
         )}
       </section>
     </div>

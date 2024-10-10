@@ -26,7 +26,8 @@ const MissionSchema = new mongoose.Schema({
   serviceAndSupport: { type: String, required: true }, // New field for Service and Support
   commandAndSignals: { type: String, required: true }, // New field for Command
   details: { type: String, required: true },
-  map: { type: String, required: true },
+  mapmacro: { type: String, required: true },
+  mapmicro: { type: String, required: true },
   actionPrompt: { type: String, required: true },
   answerKey: { type: String, required: true },
 });
@@ -47,74 +48,396 @@ const missions = [
     type: "Combat",
     level: "Platoon",
     situation: `
-Ground:
+1. GROUND
+  a. Weather
+    Current: 29°C, partly cloudy
+    Next 24h: Clear, winds NE 5-10 km/h
+    BMNT: 0515hrs
+    EENT: 1845hrs
+    Moon: Waxing gibbous, 65% illumination
+  b. Terrain
+    AO: Jalalabad market district
+    Grid: 42SWC 8234 5678 to 8238 5678 TBC
+    1km x 500m built-up area
+    Urban Characteristics:
+    Dense urban terrain, 2-3 story buildings
+    Narrow streets and alleyways
+    Multiple covered positions and routes
+    Key Terrain:
+      Western mosque and minaret
+      Central bazaar
+      Eastern market square
+      Connecting alleyways
+    Obstacles:
+      Market stalls
+      Narrow passages
+      Civilian traffic
+    Cover and Concealment:
+      Abundant for both friendly and enemy forces
+      Multiple elevated positions
+      Complex urban shadow areas
 
-  Weather: 28°C, clear skies, visibility 8-10 km. Light wind from the west at 8 km/h.
-  Terrain: Urban environment with narrow streets (3-5m wide), low-rise brick buildings, and walled compounds. Markets and small shops along the main route. Elevated ridgeline 1.5 km east of the city provides overwatch but is not within the immediate area of operations.
+2. ENEMY FORCES
+  a. General
+    Multiple INS cells confirmed
+    Strong local support network
+    Pattern of complex attacks
+  b. Capabilities
+    3-4 cells of 4-6 personnel each
+    Weapons:
+      IED expertise (particularly in choke points)
+      Small arms (AKM, PKM)
+      RPG teams
+      Possible mortars
+    Tactics:
+      Complex ambushes
+      Use of civilian cover
+      Coordinated attacks
+      Escape routes pre-planned
+  c. Most Likely COA
+    IED/complex ambush at choke point
+    Multiple firing positions
+    Civilian use as cover
+    Coordinated withdrawal
+  d. Most Dangerous COA
+    Multiple simultaneous attacks
+    Heavy weapons support
+    Cut off reinforcement routes
+    Civilian casualties as goal
 
-Enemy Forces:
+3. FRIENDLY FORCES
+  a. Higher (Two Up) - Battalion
+    1 RCR conducting Op REASSURANCE
+    Intent: Maintain security in Jalalabad
+    Supporting:
+      Attack aviation on call
+      EOD teams available
+      ISR assets
+  b. Higher (One Up) - Company
+    A Coy responsible for market district
+    2 Pl securing north sector
+    3 Pl securing south sector
+    QRF maintained at FOB INDIA
+  c. Adjacent
+    ANA checkpoint east
+    ANP stations north and south
+    Coalition forces west
 
-  General: Insurgent forces have been active in the Jalalabad area, favoring ambushes and harassing fire.
-  Composition & Strength: Estimated small insurgent cells (5-10 personnel) armed with small arms, RPGs, and IEDs.
-  Recent Activity: Insurgent ambushes and harassment fire against Coalition forces in urban areas over the last week. No direct contact reported in the last 48 hours, but IEDs have been deployed on key routes, and insurgents are likely monitoring Coalition patrols.
-
-Friendly Forces:
-
-    Higher: 3 Platoon, B Company conducting presence patrols in the northern districts of Jalalabad to deter insurgent activity and build rapport with local civilians.
-    Adjacent: 2 Section conducting a simultaneous patrol on a parallel route approximately 500m to the west.
-    Supporting: Platoon HQ is ready to respond with support from the FOB, and a Quick Reaction Force (QRF) is stationed 2 km north.
-
-Attachments:
-
-  Local interpreter attached to facilitate engagement with the local population.`,
-    mission: `1 Section will conduct a presence patrol along Route Shamrock in northern Jalalabad to deter insurgent activity, build rapport with the local population, and gather intelligence on insurgent movements. Emphasis will be placed on engaging local shopkeepers and residents in key areas to foster trust and gather atmospherics.`,
+4. ATTACHMENTS/DETACHMENTS
+  Weapons Det
+  EOD Team (on call)
+  JTAC available`,
+    mission: `1 Platoon will conduct coordinated presence patrols in Jalalabad market district NLT 1330hrs to deny INS freedom of movement and maintain coalition presence IOT support A Company's security operations.`,
     execution: `
-Concept of Operations:
-  1 Section will conduct a dismounted patrol along Route Shamrock. The section will maintain tactical awareness but prioritize positive engagement with the local population, using the attached interpreter to facilitate conversation and gather information. Should enemy contact be made, the section will immediately return fire, seek cover, and coordinate with 2 Section and Platoon HQ for reinforcement.
+1. CONCEPT OF OPS
+  a. Commander's Intent
+    Purpose: Deny INS ability to operate in market
+    Method: Distributed section patrols with mutual support
+    Endstate: Market secured, INS disrupted, intel gathered
+  b. Scheme of Manoeuvre
+    Phase 1 (DEPLOY): Sections move to start positions
+      1 Section: Western market
+      2 Section: Central bazaar
+      3 Section: Eastern market
+    Phase 2 (PATROL): Coordinated movements
+      100m spacing maintained
+      Mutual support possible
+      Local engagement authorized
+    Phase 3 (RESPONSE): React to contact
+      Immediate action drills
+      Support from adjacent sections
+      QRF integration
+    Phase 4 (CONSOLIDATION): Exploit success
+      Site exploitation
+      Intel gathering
+      BDA
 
-Main Effort:
-  
-  Engaging with the local population while maintaining security along the patrol route.
+2. GROUPINGS AND TASKS
+  a. 1 Section
+    Clear western market sector
+    Maintain observation of mosque area
+    Be prepared to support 2 Section
+  b. 2 Section
+    Secure central bazaar
+    Maintain central position
+    Ready to support either flank
+  c. 3 Section
+    Patrol eastern market
+    Monitor eastern approaches
+    Be prepared to support 2 Section
+  d. Weapons Det
+    Establish support positions on order
+    Be prepared to reinforce success
+    Support casualty evacuation
 
-Groupings and Tasks:
+3. COORDINATING INSTRUCTIONS
+  a. Timings
+    H-Hour: 1330hrs
+    Phase 1 complete: 1345hrs
+    Expected duration: 3 hours
+  b. Control Measures
+    Boundaries: As per overlay
+    Phase lines: MAPLE, OAK, BIRCH
+    ROE: Card DELTA in effect
+  c. Coordination Requirements
+    Radio checks every 15 mins
+    Section reports at phase lines
+    SITREP criteria:
+      All contacts
+      Pattern changes
+      Civilian situations`, // Sample Execution
+    serviceAndSupport: `
+1. AMMO
+  Rifleman:
+    7 mags
+    2 smokes
+    2 frags
+  C9 Gunner:
+    800 rounds linked
+    1 spare barrel
+  M203:
+    20 HE
+    10 smoke
+  Per Section:
+    2 red flares
+    2 green flares
+    Emergency resupply with Pl 2IC
 
-1 Section:
-Conduct patrol along Route Shamrock in a staggered column.
-Stop at key civilian locations (e.g., local shops, markets) to engage with civilians and gather atmospherics using the interpreter.
-Maintain tactical readiness to react to any insurgent contact.
-2 Section:
-Patrol along Route Clover (parallel route) and be prepared to support 1 Section if required.
-Platoon HQ:
-Monitor both patrols and coordinate any required reinforcements or support from QRF.
-Coordinating Instructions:
+2. DRESS AND KIT
+    Full fighting order
+    Plates in
+  Each person:
+    2L water
+    1 IMP
+    5 flex cuffs
+  Each Section:
+    1 GPS
+    1 camera
+    Breach kit
+    Stretcher
 
-Timings:
-Step-off at 0700hrs.
-Key engagement points to be reached by 0800hrs.
-Patrol duration estimated at 2 hours.
-Engagement Criteria:
-Engage enemy forces only upon positive identification.
-Minimize collateral damage, particularly in populated areas.`, // Sample Execution
-    serviceAndSupport: `Support will be provided by...`, // Sample Service and Support
-    commandAndSignals: `Command will be maintained through...`, // Sample Command
-    details: `Main roads are paved...`,
-    actionPrompt: `Approximately 20 minutes after crossing the bridge...`,
-    map: "desertplatoon.png",
-    answerKey: `Answer Key for "Platoon Attack in Jalalabad"...`,
+3. MEDICAL
+    Casualty Flow:
+    Section CCP → Platoon CCP → FOB
+  Transport:
+    Ambulance at FOB (15 min)
+    QRF vehicles backup
+  Routes:
+    Main: Middle route
+    Backup: Bridge route
+
+4. TRANSPORT
+  Platoon: Nil
+  QRF vehicles at FOB if needed
+  Ambulance on standby
+
+5. COMMS
+  Section nets on PRCs
+  Spare batteries H+3
+  Radio checks q15 mins`, // Sample Service and Support
+    commandAndSignals: `
+1. COMMAND
+  Pl HQ with 2 Section
+  Pl 2IC with Weapons Det
+  Succession: Pl 2IC, 1 Sec Comd, 2 Sec Comd
+
+2. SIGNALS
+  Primary: Platoon net
+  Alternate: Company net
+  Emergency: Battalion net
+  Codewords:
+    "GRANITE": Section contact
+    "MARBLE": QRF required
+    "SLATE": Air support needed
+    "BEDROCK": Mass casualty event`, // Sample Command
+    details: `Nil.`,
+    actionPrompt: `
+At 1345hrs:
+  1 Section reports IED detonation with casualties
+  Multiple enemy firing points identified
+  Civilians dispersing rapidly
+  Reports of enemy movement to east
+  Possible additional IEDs in area
+
+Adjacent units report:
+  2 Pl: Hearing small arms fire
+  ANP: Suspicious vehicles moving south from the north
+  ANA: Possible reinforcements coming in, military-style vehicles seen moving southeast in a nearby village
+
+You have 5 minutes to:
+  Issue FRAGO
+  Deploy remaining forces
+  Coordinate support
+  Establish C2 measures
+Consider:
+  Multiple threats
+  Civilian presence
+  Casualty evacuation
+  Support integration
+  Adjacent unit coordination
+  Follow-on actions`,
+    mapmacro: "desertplatoon.png",
+    mapmicro: "desertplatoon.png",
+    answerKey: `Answer Key`,
   },
   {
     title: "Section Attack in Jalalabad",
     description: "Your flank comes under attack from a well-entrenched enemy position. You must decide how to respond.",
     type: "Combat",
     level: "Section",
-    situation: `You are the 2d Platoon Commander...`,
-    mission: `Your platoon is on its second patrol...`,
-    execution: `Execute the plan by moving north...`, // Sample Execution
-    serviceAndSupport: `Support will be provided by...`, // Sample Service and Support
-    commandAndSignals: `Command will be maintained through...`, // Sample Command
-    details: `Main roads are paved...`,
-    actionPrompt: `Approximately 20 minutes after crossing the bridge...`,
-    map: "desertsection.png",
+    situation: `
+1. GROUND
+  a. Weather
+    Current: 29°C, partly cloudy
+    Next 6h: Clear, light winds from NE
+    BMNT: 0515hrs
+    EENT: 1845hrs
+    Moon: Waxing gibbous, 65% illumination
+  b. Terrain
+    Grid: 42SWC 8234 5678 (Western Market)
+    Urban density: High, 2-3 story buildings
+    Streets: Primary (6m wide), alleys (2-3m)
+    Construction: Mud brick, concrete
+  Choke points:
+    Market entrance (GR 8234 5679) TBC
+    T-junction at bazaar (GR 8235 5678) TBC 
+    Narrow passage by mosque (GR 8236 5677) TBC
+  Key Terrain:
+    Mosque minaret (40m elevation)
+    Market rooftops (8-12m elevation)
+    Central bazaar square
+  LOA: Western market boundary to central bazaar
+
+2. ENEMY FORCES
+  a. General
+    INS cells active in western sector
+    Known for complex ambushes
+    Strong local intelligence network
+  b. Capabilities
+    IED expertise (pressure plate and command det)
+    Small arms (AKM, PKM)
+    RPG teams
+    4-6 fighters per cell
+    Local civilians provide early warning
+  c. Recent Activity
+    IED found at GR 8233 5680 (72h ago)
+    Suspicious activity near mosque
+    Known RPG cache within 200m
+    Local informant warnings of impending attack
+
+3. FRIENDLY FORCES
+  a. Higher (Two Up) - Company
+    A Coy securing Jalalabad market district
+    QRF at 15 min NTM
+    EOD team available at FOB INDIA
+  b. Higher (One Up) - Platoon
+    1 Platoon conducting distributed presence patrol
+    2 Section - Central market (100m east)
+    3 Section - Eastern market (200m east)
+    Pl HQ co-located with 2 Section
+  c. Supporting
+    Platoon weapons det
+    UAV on request
+    ANA partnered element
+
+4. ATTACHMENTS/DETACHMENTS
+  Nil`,
+    mission: `1 Section will conduct presence patrol in western Jalalabad market NLT 1330hrs to deny INS freedom of movement and maintain coalition presence IOT support 1 Platoon's security operations.`,
+    execution: `
+1. CONCEPT OF OPS
+  a. Commander's Intent
+    Purpose: Deny INS staging/movement in western sector
+    Method: Deliberate presence patrol with maximum signature
+    Endstate: Western market secured, INS activity disrupted
+  b. Scheme of Manoeuvre
+    Phase 1: Move to start line (market entrance)
+    Phase 2: Clear through market to mosque
+    Phase 3: Establish presence at bazaar
+    Phase 4: Return through alternate route
+
+2. GROUPINGS AND TASKS
+  a. Alpha Fireteam (Point)
+    Lead patrol movement
+    Main observation element
+    Clear danger areas
+  b. Bravo Fireteam (Main Body)
+    Command element
+    Support Alpha
+    Local engagement
+  c. Charlie Fireteam (Rear)
+    Rear security
+    Counter-follow
+    Support by fire
+
+3. COORDINATING INSTRUCTIONS
+  a. Timings
+    H-Hour (Start): 1330hrs
+    Phase 1 complete: 1345hrs
+    Phase 2 complete: 1400hrs
+    Phase 3 complete: 1415hrs
+  b. Control Measures
+    Boundaries: As per patrol overlay
+    Phase lines: MAPLE, OAK, BIRCH
+    Checkpoints: 1 through 4
+    ROE: Card DELTA in effect
+  c. Coordinating Points
+    Radio checks: Every 15 mins
+    Adjacent section coordination at phase lines
+    Report all suspicious activity`, // Sample Execution
+    serviceAndSupport: `
+1. EQUIPMENT
+  Full fighting order
+  Section radio set
+  C8: 210 rds per rifle
+  C9: 800 rds per gun
+  Smoke grenades (2 per fireteam)
+  Flex cuffs
+  Camera
+
+2. MEDICAL
+  CCP at start point
+  Section medic with Bravo
+  Casualty evacuation through Pl HQ`, // Sample Service and Support
+    commandAndSignals: `
+1. COMMAND
+  Sec Comd with Bravo Fireteam
+  2IC with Charlie Fireteam
+
+2. SIGNALS
+  Primary: Section net (VHF)
+  Alternate: Hand signals
+  Emergency: Runner, Platoon net
+  Codewords:
+  "LIGHTNING": Contact
+  "THUNDER": Casualty
+  "RAINFALL": Suspicious activity
+  "SUNSET": IED suspected
+  "SUNRISE": Require immediate support`, // Sample Command
+    details: `Nil.`,
+    actionPrompt: `At 1345hrs, while passing the T-junction near the mosque (GR 8236 5677):
+
+Large explosion engulfs Alpha Fireteam
+Immediate small arms fire from mosque minaret
+RPG launched from rooftop west
+Civilians screaming and running
+Multiple casualties from Alpha Fireteam
+
+You have 5 minutes to:
+
+React to contact
+Deploy remaining forces
+Report to higher
+Establish support positions
+
+Consider:
+
+Multiple enemy positions
+Civilian presence
+Casualties requiring evacuation
+Support from adjacent sections
+Command and control in chaos`,
+    mapmacro: "desertplatoon.png",
+    mapmicro: "desertsection.png",
     answerKey: `Answer Key for "Platoon Attack in Jalalabad"...`,
   },
   {
@@ -306,7 +629,8 @@ Minimize collateral damage, particularly in populated areas.`, // Sample Executi
         Running password: "Maple"   
         Challenge: "Poutine", Response: "Beaver"`,
     details: "Additional mission-specific details go here.",
-    map: "ukrainianvillage.png",
+    mapmacro: "ukrainianvillage.png",
+    mapmicro: "ukrainemicro.png",
     actionPrompt: `
   At 1530hrs, 2 Section reports multiple medium-sized drones approaching from the northeast.
   Moments later, an explosion rocks the northern defensive position.

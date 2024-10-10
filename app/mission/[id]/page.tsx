@@ -13,7 +13,8 @@ interface Mission {
   serviceAndSupport: string; // Ensure this is included
   commandAndSignals: string; // Ensure this is included
   details: string;
-  map: string;
+  mapmacro: string;
+  mapmicro: string;
   actionPrompt: string;
 }
 
@@ -101,8 +102,8 @@ export default function MissionPage({ params }: { params: { id: string } }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="md:col-span-2 space-y-6">
           <section className="bg-gray-800 p-6 rounded-lg">
-  <h2 className="text-xl font-semibold mb-4">Situation</h2>
-  <pre className="whitespace-pre-wrap text-sm font-mono">{mission.situation}</pre>
+              <h2 className="text-xl font-semibold mb-4">Situation</h2>
+              <pre className="whitespace-pre-wrap text-sm font-mono">{mission.situation}</pre>
             </section>
 
             <section className="bg-gray-800 p-6 rounded-lg">
@@ -133,7 +134,7 @@ export default function MissionPage({ params }: { params: { id: string } }) {
           <div className="space-y-6">
             <section className="bg-gray-800 p-6 rounded-lg">
               <h2 className="text-xl font-semibold mb-4">Map</h2>
-              <Image src={`/maps/${mission.map}`} alt="Mission Map" width={400} height={300} layout="responsive" />
+              <Image src={`/maps/${mission.mapmacro}`} alt="Mission Map" width={400} height={300} layout="responsive" />
             </section>
           </div>
           <button
@@ -152,7 +153,7 @@ export default function MissionPage({ params }: { params: { id: string } }) {
           </section>
           <section className="bg-gray-800 p-6 rounded-lg">
             <h2 className="text-xl font-semibold mb-4">Map</h2>
-            <Image src={`/maps/${mission.map}`} alt="Mission Map" width={400} height={300} layout="responsive" />
+            <Image src={`/maps/${mission.mapmicro}`} alt="Mission Map" width={400} height={300} layout="responsive" />
           </section>
           <section className="bg-gray-800 p-6 rounded-lg">
             <h2 className="text-xl font-semibold mb-4">Your Frag-O to Your Team</h2>
