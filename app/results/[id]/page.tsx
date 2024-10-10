@@ -88,7 +88,7 @@ export default function ResultsPage({ params }: { params: { id: string } }) {
     const prompt = `You are a highly experienced military scenario writer tasked with generating a realistic and balanced mission outcome based on the provided mission context and Fragmentary Order (Frag-O). Your goal is to create a compelling narrative that accurately reflects the quality of the Frag-O and its impact on the mission's success or failure.
 
 **Key Points:**
-1. The platoon commander, ${username || 'Unknown'}, wrote the Frag-O in just five minutes to accomplish their task.
+1. The platoon commander, last name, ${username || 'Unknown'}, wrote the Frag-O in just five minutes to accomplish their task.
 2. The story should realistically depict how the mission unfolds based on the Frag-O's strengths and weaknesses.
 3. Consider the time constraint under which the Frag-O was written and how this might affect its quality and completeness.
 
@@ -152,7 +152,7 @@ ${fragO}
 **Mission Outcome:**
 ${story}
 
-**Platoon Commander:** ${username || 'Unknown'}
+**Platoon Commander, last name,:** ${username || 'Unknown'}
 
 **Task:**
 Provide a detailed, critical analysis of ${username || 'the platoon commander'}'s performance. Your assessment should:
@@ -232,18 +232,7 @@ Your analysis should be thorough, fair, and designed to push the commander to im
       <h1 className="text-3xl font-bold mb-8">Mission Results</h1>
       <div className="space-y-8">
         <section className="bg-gray-800 p-6 rounded-lg">
-          <h2 className="text-2xl font-semibold mb-4">Mission Details</h2>
-          <p><strong>Title:</strong> {mission.title}</p>
-          <p><strong>Situation:</strong> {mission.situation}</p>
-          <p><strong>Mission:</strong> {mission.mission}</p>
-          <p><strong>Details:</strong> {mission.details}</p>
-        </section>
-        <section className="bg-gray-800 p-6 rounded-lg">
-          <h2 className="text-2xl font-semibold mb-4">Your Frag-O</h2>
-          <ReactMarkdown className="prose prose-invert prose-green">{result.fragO}</ReactMarkdown>
-        </section>
-        <section className="bg-gray-800 p-6 rounded-lg">
-          <h2 className="text-2xl font-semibold mb-4">Mission Outcome</h2>
+          <h2 className="text-2xl font-semibold mb-4">Story</h2>
           <ReactMarkdown className="prose prose-invert prose-green">{result.story}</ReactMarkdown>
         </section>
         <section className="bg-gray-800 p-6 rounded-lg">
