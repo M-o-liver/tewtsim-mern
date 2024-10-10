@@ -31,7 +31,7 @@ export default function MainPage() {
 
     if (response.ok) {
       console.log('Success:', data)
-      router.push('/landing') // Redirect to landing page
+      router.push('/landing') // Redirect to laanding page
     } else {
       console.error('Error:', data.error)
       // Handle error
