@@ -46,9 +46,55 @@ const missions = [
     description: "Your flank comes under attack from a well-entrenched enemy position. You must decide how to respond.",
     type: "Combat",
     level: "Platoon",
-    situation: `You are the 2d Platoon Commander...`,
-    mission: `Your platoon is on its second patrol...`,
-    execution: `Execute the plan by moving north...`, // Sample Execution
+    situation: `
+Ground:
+
+  Weather: 28°C, clear skies, visibility 8-10 km. Light wind from the west at 8 km/h.
+  Terrain: Urban environment with narrow streets (3-5m wide), low-rise brick buildings, and walled compounds. Markets and small shops along the main route. Elevated ridgeline 1.5 km east of the city provides overwatch but is not within the immediate area of operations.
+
+Enemy Forces:
+
+  General: Insurgent forces have been active in the Jalalabad area, favoring ambushes and harassing fire.
+  Composition & Strength: Estimated small insurgent cells (5-10 personnel) armed with small arms, RPGs, and IEDs.
+  Recent Activity: Insurgent ambushes and harassment fire against Coalition forces in urban areas over the last week. No direct contact reported in the last 48 hours, but IEDs have been deployed on key routes, and insurgents are likely monitoring Coalition patrols.
+
+Friendly Forces:
+
+    Higher: 3 Platoon, B Company conducting presence patrols in the northern districts of Jalalabad to deter insurgent activity and build rapport with local civilians.
+    Adjacent: 2 Section conducting a simultaneous patrol on a parallel route approximately 500m to the west.
+    Supporting: Platoon HQ is ready to respond with support from the FOB, and a Quick Reaction Force (QRF) is stationed 2 km north.
+
+Attachments:
+
+  Local interpreter attached to facilitate engagement with the local population.`,
+    mission: `1 Section will conduct a presence patrol along Route Shamrock in northern Jalalabad to deter insurgent activity, build rapport with the local population, and gather intelligence on insurgent movements. Emphasis will be placed on engaging local shopkeepers and residents in key areas to foster trust and gather atmospherics.`,
+    execution: `
+Concept of Operations:
+  1 Section will conduct a dismounted patrol along Route Shamrock. The section will maintain tactical awareness but prioritize positive engagement with the local population, using the attached interpreter to facilitate conversation and gather information. Should enemy contact be made, the section will immediately return fire, seek cover, and coordinate with 2 Section and Platoon HQ for reinforcement.
+
+Main Effort:
+  
+  Engaging with the local population while maintaining security along the patrol route.
+
+Groupings and Tasks:
+
+1 Section:
+Conduct patrol along Route Shamrock in a staggered column.
+Stop at key civilian locations (e.g., local shops, markets) to engage with civilians and gather atmospherics using the interpreter.
+Maintain tactical readiness to react to any insurgent contact.
+2 Section:
+Patrol along Route Clover (parallel route) and be prepared to support 1 Section if required.
+Platoon HQ:
+Monitor both patrols and coordinate any required reinforcements or support from QRF.
+Coordinating Instructions:
+
+Timings:
+Step-off at 0700hrs.
+Key engagement points to be reached by 0800hrs.
+Patrol duration estimated at 2 hours.
+Engagement Criteria:
+Engage enemy forces only upon positive identification.
+Minimize collateral damage, particularly in populated areas.`, // Sample Execution
     serviceAndSupport: `Support will be provided by...`, // Sample Service and Support
     commandAndSignals: `Command will be maintained through...`, // Sample Command
     details: `Main roads are paved...`,
@@ -77,20 +123,20 @@ const missions = [
     type: "Defense",
     level: "Platoon",
     situation: `
- 1. Ground
-   a. Weather
-      - Current temperature: 2°C, overcast with light drizzle
-      - Visibility: 3-5 km
-      - Light easterly wind: 10-15 km/h
-      - Sunset in 6 hours
-   b. Terrain
-      - Small Ukrainian town with approximately 80 Soviet-style houses
-      - Mix of wooden and brick construction, mostly intact
-      - Main road: paved, 6m wide, runs north-south through town center
-      - Side streets: mix of paved and unpaved, 3-4m wide
-      - Scattered debris from previous 3 days of combat
-      - Open fields to east and west, forested area to the north
-      - Terrain shows signs of recent artillery impacts
+1. Ground
+  a. Weather
+    - Current temperature: 2°C, overcast with light drizzle
+    - Visibility: 3-5 km
+    - Light easterly wind: 10-15 km/h
+    - Sunset in 6 hours
+  b. Terrain
+    - Small Ukrainian town with approximately 80 Soviet-style houses
+    - Mix of wooden and brick construction, mostly intact
+    - Main road: paved, 6m wide, runs north-south through town center
+    - Side streets: mix of paved and unpaved, 3-4m wide
+    - Scattered debris from previous 3 days of combat
+    - Open fields to east and west, forested area to the north
+    - Terrain shows signs of recent artillery impacts
 
 2. Enemy Forces
    a. General
