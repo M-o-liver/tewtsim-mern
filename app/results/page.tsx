@@ -73,6 +73,7 @@ function ResultsContent() {
   if (selectedResult) {
     return (
       <div className="min-h-screen bg-gray-900 text-green-500 p-8">
+        <title>Tewtsim.ca</title>
         <h1 className="text-3xl font-bold mb-8">
           {selectedResult.missionId ? `${selectedResult.missionId.title} - Mission Results` : 'Mission Results'}
         </h1>
@@ -105,6 +106,7 @@ function ResultsContent() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-green-500 p-8">
+      <title>Tewtsim.ca</title>
       <h1 className="text-3xl font-bold mb-8">Your Mission Results</h1>
       {results.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

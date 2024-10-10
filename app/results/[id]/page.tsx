@@ -209,6 +209,7 @@ Your analysis should be thorough, fair, and designed to push the commander to im
   if (error) {
     return (
       <div className="min-h-screen bg-gray-900 text-red-500 p-8 flex items-center justify-center">
+        <title>Tewtsim.ca</title>
         <div className="bg-gray-800 p-6 rounded-lg text-center">
           <h1 className="text-2xl font-bold mb-4">Error</h1>
           <p>{error}</p>
@@ -229,6 +230,7 @@ Your analysis should be thorough, fair, and designed to push the commander to im
 
   return (
     <div className="min-h-screen bg-gray-900 text-green-500 p-8">
+      <title>Tewtsim.ca</title>
       <h1 className="text-3xl font-bold mb-8">Mission Results</h1>
       <div className="space-y-8">
         <section className="bg-gray-800 p-6 rounded-lg">

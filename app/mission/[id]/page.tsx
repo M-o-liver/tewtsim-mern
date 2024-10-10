@@ -97,6 +97,7 @@ export default function MissionPage({ params }: { params: { id: string } }) {
 
   return (
     <div className="min-h-screen bg-gray-900 text-green-500 p-8">
+      <title>Tewtsim.ca</title>
       <h1 className="text-3xl font-bold mb-8">{mission.title}</h1>
       {step === 'situation' && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
