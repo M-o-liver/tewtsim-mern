@@ -100,29 +100,34 @@ export default function MissionPage({ params }: { params: { id: string } }) {
       {step === 'situation' && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="md:col-span-2 space-y-6">
-            <section className="bg-gray-800 p-6 rounded-lg">
-              <h2 className="text-xl font-semibold mb-4">Situation</h2>
-              <p>{mission.situation}</p>
+          <section className="bg-gray-800 p-6 rounded-lg">
+  <h2 className="text-xl font-semibold mb-4">Situation</h2>
+  <pre className="whitespace-pre-wrap text-sm font-mono">{mission.situation}</pre>
             </section>
+
             <section className="bg-gray-800 p-6 rounded-lg">
               <h2 className="text-xl font-semibold mb-4">Mission</h2>
-              <p>{mission.mission}</p>
+              <pre className="whitespace-pre-wrap text-sm font-mono">{mission.mission}</pre>
             </section>
+
             <section className="bg-gray-800 p-6 rounded-lg">
               <h2 className="text-xl font-semibold mb-4">Execution</h2>
-              <p>{mission.execution}</p>
+              <pre className="whitespace-pre-wrap text-sm font-mono">{mission.execution}</pre>
             </section>
+
             <section className="bg-gray-800 p-6 rounded-lg">
               <h2 className="text-xl font-semibold mb-4">Service and Support</h2>
-              <p>{mission.serviceAndSupport}</p>
+              <pre className="whitespace-pre-wrap text-sm font-mono">{mission.serviceAndSupport}</pre>
             </section>
+
             <section className="bg-gray-800 p-6 rounded-lg">
               <h2 className="text-xl font-semibold mb-4">Command and Signals</h2>
-              <p>{mission.commandAndSignals}</p>
+              <pre className="whitespace-pre-wrap text-sm font-mono">{mission.commandAndSignals}</pre>
             </section>
+
             <section className="bg-gray-800 p-6 rounded-lg">
               <h2 className="text-xl font-semibold mb-4">Details</h2>
-              <p>{mission.details}</p>
+              <pre className="whitespace-pre-wrap text-sm font-mono">{mission.details}</pre>
             </section>
           </div>
           <div className="space-y-6">
