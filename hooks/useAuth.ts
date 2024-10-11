@@ -21,9 +21,15 @@ export function useAuth() {
         if (response.ok) {
           const userData = await response.json();
           setUsername(userData.username);
+        } else {
+          // Handle invalid token by clearing it
+          localStorage.removeItem('token');
+          setUsername(null);
         }
       } catch (error) {
         console.error('Error fetching user data:', error);
+        localStorage.removeItem('token');
+        setUsername(null);
       } finally {
         setIsLoading(false);
       }

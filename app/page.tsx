@@ -19,24 +19,32 @@ export default function MainPage() {
   }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    const endpoint = isSignUp ? '/api/register' : '/api/login'
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
-    })
-
-    const data = await response.json()
-
-    if (response.ok) {
-      console.log('Success:', data)
-      router.push('/landing') // Redirect to laanding page
-    } else {
-      console.error('Error:', data.error)
-      // Handle error
+    e.preventDefault();
+    const endpoint = isSignUp ? '/api/register' : '/api/login';
+    
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        if (!isSignUp) { // Only for login
+          localStorage.setItem('token', data.token); // Store the token
+        }
+        console.log('Success:', data);
+        router.push('/landing');
+      } else {
+        console.error('Error:', data.error);
+        // Handle error - maybe set an error state to show to the user
+      }
+    } catch (error) {
+      console.error('Network error:', error);
     }
-  }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-8 bg-gray-100 dark:bg-gray-900">
