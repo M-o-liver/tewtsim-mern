@@ -22,6 +22,9 @@ This application provides a platform for practicing tactical decision-making in 
 - **Analysis System**: Receive scenario outcomes and decision analysis
 - **Responsive Design**: Compatible with standard desktop and mobile browsers
 
+### Currently working on:
+- Azure
+
 ### Planned Future Features
 - **Mission History**: Archive and review of previous training attempts
 - **Mission Creation**: Capability to add new training scenarios
