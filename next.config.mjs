@@ -1,5 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'standalone',
+  experimental: {
+    // Enable build cache
+    turbotrace: {
+      logLevel: 'error',
+      logDetail: true,
+      logAll: true,
+    },
+  },
   async headers() {
     return [
       {
@@ -26,4 +35,4 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig
