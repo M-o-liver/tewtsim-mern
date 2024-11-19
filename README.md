@@ -4,7 +4,7 @@ A web-based training application designed to support military decision-making pr
 
 ## Overview
 
-This application provides a platform for practicing tactical decision-making in a training environment. Users can work through various scenarios, submit FragOs (Fragmentary Orders), and receive detailed feedback on their decisions through narrative outcomes and analysis.
+This application provides a web-based platform for practicing tactical decision-making in a training environment. Users can work through various scenarios, submit FragOs (Fragmentary Orders), and receive detailed feedback on their decisions through narrative outcomes and analysis.
 
 ## Tech Stack
 
