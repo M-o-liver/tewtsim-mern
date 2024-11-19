@@ -1,17 +1,13 @@
 {
     "navigationFallback": {
-      "rewrite": "/index.html"
+      "rewrite": "/index.html",
+      "exclude": ["/images/*", "/api/*"]
     },
     "routes": [
       {
         "route": "/api/*",
         "methods": ["GET", "POST", "PUT", "DELETE"],
         "rewrite": "/api/index"
-      },
-      {
-        "route": "/*",
-        "serve": "/index.html",
-        "statusCode": 200
       }
     ],
     "globalHeaders": {
