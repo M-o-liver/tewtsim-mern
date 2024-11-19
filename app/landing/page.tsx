@@ -83,7 +83,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8">
       <title>Tewtsim.ca</title>
-      {username && <h1 className="text-2xl mb-4 text-green-400">Good Morning, Commander ${username}</h1>}
+      {username && <h1 className="text-2xl mb-4 text-green-400">Good Morning, Commander {username}</h1>}
       <section className="mb-12">
         <h2 className="text-3xl font-bold mb-8">Available Missions</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

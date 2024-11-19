@@ -85,41 +85,52 @@ export default function ResultsPage({ params }: { params: { id: string } }) {
   }, [params.id, username, isAuthLoading]);
 
   const generateStory = async (fragO: string, missionData: MissionData, username: string | null): Promise<string> => {
-    const prompt = `You are a highly experienced military scenario writer tasked with generating a realistic and balanced mission outcome based on the provided mission context and Fragmentary Order (Frag-O). Your goal is to create a compelling narrative that accurately reflects the quality of the Frag-O and its impact on the mission's success or failure.
+    const prompt = `You are a highly experienced military scenario writer tasked with generating a realistic and balanced mission outcome based on the provided mission context and Fragmentary Order (Frag-O). Your goal is to create a detailed narrative that shows how the Frag-O's quality directly impacts mission execution, key decision points, and final outcomes.
+Mission Parameters
 
-**Key Points:**
-1. The platoon commander, last name, ${username || 'Unknown'}, wrote the Frag-O in just five minutes to accomplish their task.
-2. The story should realistically depict how the mission unfolds based on the Frag-O's strengths and weaknesses.
-3. Consider the time constraint under which the Frag-O was written and how this might affect its quality and completeness.
+Platoon Commander ${username || 'Unknown'} had only five minutes to write this Frag-O
+The story must demonstrate clear cause-and-effect relationships between the Frag-O's content and mission events
+Time pressure's impact on planning quality should be evident in the narrative
 
-**Guidelines:**
-- Exceptional Frag-O: If the Frag-O demonstrates strong leadership, clear objectives, decisive actions, and effective strategies despite the time constraint, the mission should be highly successful with minimal issues.
-- Good Frag-O: If the Frag-O is solid but shows some signs of being rushed, the mission should be successful but with some minor challenges or unexpected situations.
-- Mediocre Frag-O: If the Frag-O shows average leadership, some indecision, or unclear directives, possibly due to time pressure, the mission should be completed but with notable challenges, delays, or setbacks.
-- Poor Frag-O: If the Frag-O is severely flawed, unclear, indecisive, or shows poor leadership, likely due to the time constraint, the mission must fail or encounter significant difficulties.
+Quality Impact Guidelines
 
-**Mission Context:**
-- Title: ${missionData.title}
-- Situation: ${missionData.situation}
-- Mission: ${missionData.mission}
-- Execution: ${missionData.execution}
-- Service and Support: ${missionData.serviceAndSupport}
-- Command and Signals: ${missionData.commandAndSignals}
-- Details: ${missionData.details}
+Exceptional Frag-O: Despite time constraints, shows masterful planning. Mission succeeds smoothly with only minor complications that the plan anticipates and handles well.
+Solid Frag-O: Shows good planning despite being rushed. Mission succeeds but encounters 2-3 unexpected challenges that require adaptation within the plan's framework.
+Mediocre Frag-O: Reveals planning gaps from time pressure. Mission completes but faces 4-5 significant difficulties that force substantial deviation from the original plan.
+Poor Frag-O: Shows critical planning failures. Mission encounters major problems directly tied to plan oversights, leading to potential failure or costly adaptations.
 
-**Frag-O:**
+Mission Context
+
+Title: ${missionData.title}
+Situation: ${missionData.situation}
+Mission: ${missionData.mission}
+Execution: ${missionData.execution}
+Service and Support: ${missionData.serviceAndSupport}
+Command and Signals: ${missionData.commandAndSignals}
+Details: ${missionData.details}
+
+Frag-O:
 ${fragO}
+Story Requirements
+Create a detailed narrative that:
 
-**Task:**
-Generate a detailed and realistic story of the mission execution that aligns with the quality of the Frag-O. Ensure that the narrative:
-1. Accurately reflects the strengths and weaknesses present in the Frag-O.
-2. Considers the time pressure under which the Frag-O was written.
-3. Includes specific examples of how the Frag-O's content (or lack thereof) directly impacts the mission's outcome.
-4. Describes the actions and decisions of Platoon Commander ${username || 'Unknown'} throughout the mission.
-5. Incorporates realistic challenges, unexpected events, or enemy actions that test the effectiveness of the Frag-O.
-6. Concludes with a clear outcome that logically follows from the events of the story and the quality of the Frag-O.
+Opens with the initial execution of the Frag-O, showing how well troops understand their orders
+Presents 3-4 key decision points where Commander ${username || 'Unknown'} must respond to situations
+Shows specific moments where the Frag-O's strengths or weaknesses become evident
+Includes realistic friction points:
 
-Your story should be engaging, realistic, and provide valuable insights into the relationship between the Frag-O's quality and the mission's success or failure.`;
+Equipment issues
+Communication challenges
+Weather impacts
+Enemy actions
+Coordination problems
+
+
+Demonstrates how subordinate leaders interpret and execute the Frag-O
+Closes with clear mission results and immediate aftermath
+
+Your narrative should be 800-1200 words, structured chronologically, and focus on how the Frag-O's quality shapes events. Include specific details about time, locations, unit movements, and command decisions that directly reflect the Frag-O's content or omissions.
+Write this as a gripping military story that naturally reveals planning quality through events rather than explicit commentary. The story should feel like a real mission report while providing clear material for analyzing the relationship between planning and execution.`;
 
     console.log('Story Generation Prompt:', prompt);
 
@@ -135,38 +146,135 @@ Your story should be engaging, realistic, and provide valuable insights into the
   };
 
   const generateAnalysis = async (fragO: string, missionData: MissionData, story: string, username: string | null): Promise<string> => {
-    const prompt = `You are a senior military officer conducting a comprehensive after-action review (AAR). Your analysis should be based on the provided Frag-O, mission context, and the resulting mission outcome. Your goal is to provide a fair but challenging assessment that will motivate the platoon commander to improve their skills.
+    const prompt = `You are a seasoned military officer conducting an after-action review (AAR). Your analysis must be direct, honest, and professionally demanding - the kind that makes leaders either step up or step out.
+Full Mission Context
+Initial Mission Parameters:
 
-**Mission Context:**
-- Title: ${missionData.title}
-- Situation: ${missionData.situation}
-- Mission: ${missionData.mission}
-- Execution: ${missionData.execution}
-- Service and Support: ${missionData.serviceAndSupport}
-- Command and Signals: ${missionData.commandAndSignals}
-- Details: ${missionData.details}
+Title: ${missionData.title}
+Situation: ${missionData.situation}
+Mission: ${missionData.mission}
+Execution: ${missionData.execution}
+Service and Support: ${missionData.serviceAndSupport}
+Command and Signals: ${missionData.commandAndSignals}
+Details: ${missionData.details}
 
-**Frag-O:**
-${fragO}
+Commander's Planning:
 
-**Mission Outcome:**
-${story}
+Time Allocated: 5 minutes
+Original Frag-O: ${fragO}
 
-**Platoon Commander, last name,:** ${username || 'Unknown'}
+Mission Execution:
 
-**Task:**
-Provide a detailed, critical analysis of ${username || 'the platoon commander'}'s performance. Your assessment should:
+Actual Outcome: ${story}
+Commander: ${username || 'Unknown'}
 
-1. Offer a balanced view of the commander's performance, acknowledging both strengths and weaknesses.
-2. Identify specific elements of the Frag-O that contributed to the mission's success or failure.
-3. Analyze the commander's decision-making process, considering the 5-minute time constraint for creating the Frag-O.
-4. Evaluate the commander's ability to adapt to unexpected situations during the mission.
-5. Assess the overall effectiveness of the commander's leadership and communication.
-6. Provide clear, actionable recommendations for improvement, focusing on key areas that would have the most significant impact.
-7. Include constructive criticism that challenges the commander to strive for excellence in future missions.
-8. Conclude with a motivational statement that encourages the commander to learn from this experience and continue developing their skills.
+Initial Situation Analysis
 
-Your analysis should be thorough, fair, and designed to push the commander to improve while also recognizing their efforts and potential. The goal is to create an engaging experience that motivates the commander to challenge themselves and strive for better performance in future missions.`;
+Compare original mission parameters against Frag-O planning:
+
+Mission understanding
+Resource utilization
+Risk assessment
+Support integration
+Command and control implementation
+
+
+Analyze planning under time constraint:
+
+Critical elements included/missed
+Priority decisions
+Essential coordination points
+Contingency considerations
+
+
+
+Execution Analysis
+
+Command Decisions vs Mission Parameters
+
+How well did execution align with original mission intent?
+Where did planning gaps affect operational reality?
+What elements of the original situation were properly/improperly addressed?
+
+
+Resource and Support Utilization
+
+Compare planned vs actual support requirements
+Effectiveness of command and signal plans in execution
+Impact of service and support decisions
+
+
+Critical Decision Points
+
+Integration of mission parameters in key moments
+Adaptation to situation changes
+Command presence impact
+
+
+
+Professional Assessment
+
+Mission Critical Moments
+
+Most consequential decisions
+Direct impact on troops and mission
+Leadership presence effects
+
+
+Command Effectiveness
+
+Key decisions showing command capability
+Time constraint management
+Operational control effectiveness
+
+
+Hard Truths
+
+Critical points requiring different decisions
+Planning gaps and their consequences
+Professional standards assessment
+
+
+Next Mission Focus
+
+Specific command challenge
+Tactical/leadership standard to meet
+Readiness assessment
+
+
+
+Tone Requirements
+
+Professional intensity over false praise
+Respect shown through honest assessment
+Focus on command responsibility and mission impact
+Clear connection between decisions and consequences
+
+Essential Elements
+
+Direct comparison of mission parameters to execution results
+Clear cause-and-effect between planning and outcomes
+Impact of time pressure on critical thinking
+Specific standards that weren't met (when applicable)
+Direct challenge for next mission
+
+Your AAR should leave the commander with:
+
+Clear understanding of their command impact against original mission parameters
+Professional challenge they want to overcome
+Slightly uncomfortable but professionally motivated
+Desire to prove capability
+Recognition that command has real consequences
+
+Avoid:
+
+Personal attacks or emotional manipulation
+Sugarcoating significant issues
+Focusing on minor details over command decisions
+Vague or general feedback
+Excessive praise or unnecessary harshness
+
+Focus your analysis on comparing the original mission parameters against both the Frag-O and actual execution. Show how planning decisions under time pressure cascaded through the operation, and identify where better integration of mission elements could have improved outcomes.`;
 
     console.log('Analysis Generation Prompt:', prompt);
 
