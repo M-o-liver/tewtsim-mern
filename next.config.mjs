@@ -5,11 +5,7 @@ const nextConfig = {
     unoptimized: true,
   },
   experimental: {
-    turbotrace: {
-      logLevel: 'error',
-      logDetail: true,
-      logAll: true,
-    },
+    serverActions: true,
   },
   async headers() {
     return [
