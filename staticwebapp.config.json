@@ -1,7 +1,7 @@
 {
     "navigationFallback": {
       "rewrite": "/index.html",
-      "exclude": ["/images/*", "/api/*"]
+      "exclude": ["/images/*", "/*.{png,jpg,gif,svg,ico}", "/*.{css,scss,js,json}"]
     },
     "routes": [
       {
@@ -10,12 +10,12 @@
         "rewrite": "/api/index"
       }
     ],
+    "platform": {
+      "apiRuntime": "node:18"
+    },
     "globalHeaders": {
-      "Content-Security-Policy": "default-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self' blob: data:; connect-src 'self' https://*.openai.com https://*.mongodb.com;",
+      "content-security-policy": "default-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self' blob: data:; connect-src 'self' https://*.openai.com https://*.mongodb.com;",
       "X-Content-Type-Options": "nosniff",
       "X-Frame-Options": "DENY"
-    },
-    "mimeTypes": {
-      ".json": "text/json"
     }
   }
