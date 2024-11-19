@@ -115,7 +115,7 @@ Story Requirements
 Create a detailed narrative that:
 
 Opens with the initial execution of the Frag-O, showing how well troops understand their orders
-Presents 3-4 key decision points where Commander ${username || 'Unknown'} must respond to situations
+Presents 3-4 key decision points well integrated into a story narrative where Commander ${username || 'Unknown'} must respond to situations
 Shows specific moments where the Frag-O's strengths or weaknesses become evident
 Includes realistic friction points:
 
@@ -130,7 +130,7 @@ Demonstrates how subordinate leaders interpret and execute the Frag-O
 Closes with clear mission results and immediate aftermath
 
 Your narrative should be 800-1200 words, structured chronologically, and focus on how the Frag-O's quality shapes events. Include specific details about time, locations, unit movements, and command decisions that directly reflect the Frag-O's content or omissions.
-Write this as a gripping military story that naturally reveals planning quality through events rather than explicit commentary. The story should feel like a real mission report while providing clear material for analyzing the relationship between planning and execution.`;
+Write this as a gripping military story that naturally reveals planning quality through events rather than explicit commentary. The story should feel like a real mission report while providing clear material for analyzing the relationship between planning and execution. Consider that you are writing directly to the author of the Frag-O. They may command troops one day, do good by the soldiers they may lead in the quality of the story.`;
 
     console.log('Story Generation Prompt:', prompt);
 
@@ -168,88 +168,113 @@ Mission Execution:
 Actual Outcome: ${story}
 Commander: ${username || 'Unknown'}
 
-Analysis Approach
-Start with the bottom line up front:
+Initial Situation Analysis
 
-Did the mission succeed or fail?
-What was the key decision that made the difference?
-Where's the lesson that can't be argued with?
+Compare original mission parameters against Frag-O planning:
 
-Core Analysis Points
-
-The Reality Check
-
-
-What worked (be specific, no fluff)
-What didn't (be honest, but not harsh)
-Where luck played a role (we all know it does)
+Mission understanding
+Resource utilization
+Risk assessment
+Support integration
+Command and control implementation
 
 
-The 5-Minute Factor
+Analyze planning under time constraint:
+
+Critical elements included/missed
+Priority decisions
+Essential coordination points
+Contingency considerations
 
 
-What they nailed under pressure
-What got missed (but understandably so)
-Where experience would have helped
+
+Execution Analysis
+
+Command Decisions vs Mission Parameters
+
+How well did execution align with original mission intent?
+Where did planning gaps affect operational reality?
+What elements of the original situation were properly/improperly addressed?
 
 
-The Hard Truths (delivered straight, not mean)
+Resource and Support Utilization
+
+Compare planned vs actual support requirements
+Effectiveness of command and signal plans in execution
+Impact of service and support decisions
 
 
-That one decision we need to talk about
-The assumption that bit us
-The lesson we'd rather not learn, but must
+Critical Decision Points
+
+Integration of mission parameters in key moments
+Adaptation to situation changes
+Command presence impact
 
 
-The Next Time
+
+Professional Assessment
+
+Mission Critical Moments
+
+Most consequential decisions
+Direct impact on troops and mission
+Leadership presence effects
 
 
-One thing to definitely keep doing
-One thing to definitely change
-The challenge worth taking on
+Command Effectiveness
 
-Tone Guide
-Write like you're:
+Key decisions showing command capability
+Time constraint management
+Operational control effectiveness
 
-A peer who's been there
-Someone who wants them to succeed
-Sharp enough to see the real issues
-Experienced enough to know what matters
-Wise enough to pick your shots
 
-Your feedback should:
+Hard Truths
 
-Land like good advice from a trusted colleague
-Sting just enough to remember
-Feel like a challenge, not a beating
-Maybe include a bit of well-placed humor
-Always tie back to mission impact
+Critical points requiring different decisions
+Planning gaps and their consequences
+Professional standards assessment
+
+
+Next Mission Focus
+
+Specific command challenge
+Tactical/leadership standard to meet
+Readiness assessment
+
+
+
+Tone Requirements
+
+Professional intensity over false praise
+Respect shown through honest assessment
+Focus on command responsibility and mission impact
+Clear connection between decisions and consequences
 
 Essential Elements
 
-The undeniable truth about their performance
-Clear connection between decisions and results
-Recognition of time pressure without using it as an excuse
-Specific standard they missed (but can achieve)
-A challenge that makes them want another shot
+Direct comparison of mission parameters to execution results
+Clear cause-and-effect between planning and outcomes
+Impact of time pressure on critical thinking
+Specific standards that weren't met (when applicable)
+Direct challenge for next mission
 
-The Commander Should Walk Away:
+Your AAR should leave the commander with:
 
-Knowing exactly where they stand
-Feeling challenged but not attacked
-Slightly defensive but self-reflective
-Wanting to prove something next time
-Understanding what really matters in command
+Clear understanding of their command impact against original mission parameters
+Professional challenge they want to overcome
+Slightly uncomfortable but professionally motivated
+Desire to prove capability
+Recognition that command has real consequences
 
-Key Differences in Delivery:
-Instead of: "You failed to consider contingencies..."
-Try: "We both know that next time, having a backup plan for X would save some grief..."
-Instead of: "Your planning was insufficient..."
-Try: "Five minutes is tight, but there's one piece we can't miss..."
-Instead of: "Standards were not met..."
-Try: "Here's where experience says we need to be..."
-Focus your analysis on the decisions that really mattered. Skip the small stuff. Hit the big lessons with precision, a touch of wit, and enough truth that they can't help but want to do better next time.
-Remember: If they're getting defensive about style, they're missing the substance. Make the substance too good to ignore.`;
+Avoid:
+
+Personal attacks or emotional manipulation
+Sugarcoating significant issues
+Focusing on minor details over command decisions
+Vague or general feedback
+Excessive praise or unnecessary harshness
+
+Focus your analysis on comparing the original mission parameters against both the Frag-O and actual execution. Show how planning decisions under time pressure cascaded through the operation, and identify where better integration of mission elements could have improved outcomes.`;
 
     console.log('Analysis Generation Prompt:', prompt);
 
